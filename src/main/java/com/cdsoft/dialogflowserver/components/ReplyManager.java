@@ -35,7 +35,7 @@ public class ReplyManager {
         log.info("ProductDetailsService.prepareWebhookResponseWithProductDescription");
         ArrayList<String> reply = new ArrayList<>();
         if(IS_IN_STOCK.equalsIgnoreCase(productDetails.getIsInStock())){
-            reply.add(productDetails.getProductShortDescription());
+            reply.add(inStockMsg(productDetails));
         }
         else{
             reply.add(NOT_IN_STOCK_MSG);
@@ -48,5 +48,10 @@ public class ReplyManager {
         return WebhookResponseDto.builder()
                 .fulfillmentResponseDto(FulfillmentResponseDto.builder()
                         .messages(messages).build()).build();
+    }
+
+    private String inStockMsg(ProductDetails productDetails) {
+        return "";
+//        return String.format(IN_STOCK_MSG, productDetails.getProductType(), productDetails.getBrand());
     }
 }
