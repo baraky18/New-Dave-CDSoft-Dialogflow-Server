@@ -1,1 +1,1 @@
--Dspring.datasource.url: jdbc:mysql://185.106.128.200:3306/cdsoft1_temp
+spring.datasource.url: jdbc:mysql://185.106.128.200:3306/cdsoft1_temp
