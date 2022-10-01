@@ -1,13 +1,16 @@
 package com.cdsoft.dialogflowserver.components;
 
 import com.cdsoft.dialogflowserver.dtos.*;
+import com.cdsoft.dialogflowserver.entities.ProductCategoryDetails;
 import com.cdsoft.dialogflowserver.entities.ProductDetails;
+import com.cdsoft.dialogflowserver.mappers.CategoryMapper;
 import com.cdsoft.dialogflowserver.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import static com.cdsoft.dialogflowserver.util.Constants.*;
 
@@ -17,6 +20,7 @@ import static com.cdsoft.dialogflowserver.util.Constants.*;
 public class ReplyManager {
 
     private final ProductService productService;
+    private final CategoryMapper categoryMapper;
 
     public WebhookResponseDto handleProductDetailsRequest(WebhookRequestDto webhookRequestDto) {
         String productName = getProductNameFromRequest(webhookRequestDto);
@@ -51,7 +55,8 @@ public class ReplyManager {
     }
 
     private String inStockMsg(ProductDetails productDetails) {
-        return "";
-//        return String.format(IN_STOCK_MSG, productDetails.getProductType(), productDetails.getBrand());
+        Optional<ProductCategoryDetails> optionalCategory = productDetails.getProductCategoryDetails().stream().filter(p -> p.getProductCategoryParentId().intValue() == 2).findFirst();
+        String categoryName = optionalCategory.isPresent() ? optionalCategory.get().getCategoryName() : PRODUCT;
+        return String.format(IN_STOCK_MSG, categoryMapper.map(categoryName), productDetails.getManufacturer().getManufacturerName());
     }
 }

@@ -1,7 +1,6 @@
 package com.cdsoft.dialogflowserver.entities;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,13 +11,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Builder
-public class ProductDetails {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_product")
-    private Long productId;
+@PrimaryKeyJoinColumn(name = "id_product")
+public class ProductDetails extends Product{
 
     @Column(name = "name")
     private String productName;
@@ -28,7 +22,4 @@ public class ProductDetails {
 
     @Column(name = "description_short")
     private String productShortDescription;
-
-    @Column(name = "available_now")
-    private String isInStock;
 }
