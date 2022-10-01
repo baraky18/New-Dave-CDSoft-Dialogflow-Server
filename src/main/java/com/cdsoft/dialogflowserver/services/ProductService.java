@@ -13,11 +13,12 @@ import java.util.Optional;
 @Slf4j
 public class ProductService {
 
-    private final ProductDetailsRepository productDetailsRepository;
+//    private final ProductDetailsRepository productDetailsRepository;
 
     public ProductDetails getProductDetails(String productName) {
         log.info("ProductDetailsService.get");
-        Optional<ProductDetails> productDetailsOptional = productDetailsRepository.findByProductName(productName);
-        return productDetailsOptional.orElseGet(ProductDetails::new);
+//        Optional<ProductDetails> productDetailsOptional = productDetailsRepository.findByProductName(productName);
+//        return productDetailsOptional.orElseGet(ProductDetails::new);
+        return new ProductDetails();
     }
 }
