@@ -37,7 +37,7 @@ public class DialogflowWebhookController {
     @PostMapping(path = "/day-to-date")
     @ResponseBody
     public WebhookResponseDto dayToDate(@RequestBody String webhookRequestDtoAsString) throws JsonProcessingException {
-        log.info("DialogflowWebhookController.businessCallRequestDay");
+        log.info("DialogflowWebhookController.dayToDate");
         log.info("webhookRequest is: \n" + formatJsonString(webhookRequestDtoAsString));
         WebhookRequestDto webhookRequestDto = objectMapper.readValue(webhookRequestDtoAsString, WebhookRequestDto.class);
         WebhookResponseDto webhookResponseDto = replyManager.handleDayToDateRequest(webhookRequestDto);
@@ -47,7 +47,7 @@ public class DialogflowWebhookController {
 
     @PostMapping(path = "/product-details-mock")
     @ResponseBody
-    public WebhookResponseDto productDetailsMock(@RequestBody String webhookRequestDtoAsString) throws JsonProcessingException {
+    public WebhookResponseDto productDetailsMock(@RequestBody String webhookRequestDtoAsString) {
         log.info("DialogflowWebhookController.productDetailsMock");
         log.info("webhookRequest is: \n" + formatJsonString(webhookRequestDtoAsString));
 
