@@ -26,8 +26,7 @@ public class DialogflowWebhookController {
     @PostMapping(path = "/product-details")
     @ResponseBody
     public WebhookResponseDto productDetails(@RequestBody String webhookRequestDtoAsString) throws JsonProcessingException {
-        log.info("DialogflowWebhookController.productDetails");
-        log.info("webhookRequest is: \n" + formatJsonString(webhookRequestDtoAsString));
+        log.info("DialogflowWebhookController.productDetails\n webhookRequest is: \n"+ formatJsonString(webhookRequestDtoAsString));
         WebhookRequestDto webhookRequestDto = objectMapper.readValue(webhookRequestDtoAsString, WebhookRequestDto.class);
         WebhookResponseDto webhookResponseDto = replyManager.handleProductDetailsRequest(webhookRequestDto);
         log.info("webhookResponse is: \n" + objectMapper.writeValueAsString(webhookResponseDto));
@@ -37,8 +36,7 @@ public class DialogflowWebhookController {
     @PostMapping(path = "/day-to-date")
     @ResponseBody
     public WebhookResponseDto dayToDate(@RequestBody String webhookRequestDtoAsString) throws JsonProcessingException {
-        log.info("DialogflowWebhookController.dayToDate");
-        log.info("webhookRequest is: \n" + formatJsonString(webhookRequestDtoAsString));
+        log.info("DialogflowWebhookController.dayToDate\n webhookRequest is: \n" + formatJsonString(webhookRequestDtoAsString));
         WebhookRequestDto webhookRequestDto = objectMapper.readValue(webhookRequestDtoAsString, WebhookRequestDto.class);
         WebhookResponseDto webhookResponseDto = replyManager.handleDayToDateRequest(webhookRequestDto);
         log.info("webhookResponse is: \n" + objectMapper.writeValueAsString(webhookResponseDto));

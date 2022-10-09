@@ -3,7 +3,7 @@ package com.cdsoft.dialogflowserver.services;
 import com.cdsoft.dialogflowserver.dtos.*;
 import com.cdsoft.dialogflowserver.entities.ProductCategoryDetails;
 import com.cdsoft.dialogflowserver.entities.ProductDetails;
-import com.cdsoft.dialogflowserver.mappers.CategoryMapper;
+import com.cdsoft.dialogflowserver.mappers.language.CategoryMapper;
 import com.cdsoft.dialogflowserver.repositories.ProductDetailsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

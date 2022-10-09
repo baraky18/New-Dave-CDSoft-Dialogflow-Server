@@ -1,4 +1,4 @@
-package com.cdsoft.dialogflowserver.mappers;
+package com.cdsoft.dialogflowserver.mappers.language;
 
 import org.springframework.stereotype.Component;
 

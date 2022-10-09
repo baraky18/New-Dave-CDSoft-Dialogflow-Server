@@ -17,12 +17,12 @@ public class ReplyManager {
     private final DayAndTimeService dayAndTimeService;
 
     public WebhookResponseDto handleProductDetailsRequest(WebhookRequestDto webhookRequestDto) {
+        log.info("ReplyManager.handleProductDetailsRequest");
         return productService.getProductDetails(webhookRequestDto);
     }
 
     public WebhookResponseDto handleDayToDateRequest(WebhookRequestDto webhookRequestDto) {
         log.info("ReplyManager.handleDayToDateRequest");
-        log.info("webhookRequestDto is: \n" + webhookRequestDto.toString());
         return dayAndTimeService.getDateFromDay(webhookRequestDto);
     }
 }

@@ -7,4 +7,5 @@ public class Constants {
     public static final String NOT_IN_STOCK_MSG = "המוצר שביקשת לא נמצא כרגע במלאי. אני יכול להציע לך מוצר עם תכונות דומות?";
     public static final String IN_STOCK_MSG = "זה %1$s מעולה של %2$s. מה תרצה לדעת עליו?";
     public static final String PRODUCT = "מוצר";
+    public static final String CALL_DATE_MSG = "אוקי. נתקשר אליך %1$s.";
 }
