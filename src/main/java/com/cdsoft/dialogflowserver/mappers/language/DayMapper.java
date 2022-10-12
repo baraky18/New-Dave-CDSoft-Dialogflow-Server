@@ -1,6 +1,6 @@
 package com.cdsoft.dialogflowserver.mappers.language;
 
-import com.cdsoft.dialogflowserver.util.DayUtil;
+import com.cdsoft.dialogflowserver.enums.DayUtil;
 import org.springframework.stereotype.Component;
 
 @Component

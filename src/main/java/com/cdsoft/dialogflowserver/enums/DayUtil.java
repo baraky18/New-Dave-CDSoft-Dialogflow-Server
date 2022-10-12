@@ -1,4 +1,4 @@
-package com.cdsoft.dialogflowserver.util;
+package com.cdsoft.dialogflowserver.enums;
 
 public enum DayUtil {
 

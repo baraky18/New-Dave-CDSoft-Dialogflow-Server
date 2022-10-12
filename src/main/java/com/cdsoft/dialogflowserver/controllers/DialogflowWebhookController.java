@@ -2,6 +2,7 @@ package com.cdsoft.dialogflowserver.controllers;
 
 import com.cdsoft.dialogflowserver.components.ReplyManager;
 import com.cdsoft.dialogflowserver.dtos.*;
+import com.cdsoft.dialogflowserver.entities.ProductDetails;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.cdsoft.dialogflowserver.enums.BusinessNotificationType.PERFORM_BUSINESS_CALL;
+import static com.cdsoft.dialogflowserver.util.Constants.UNWANTED_TEXT_FOR_PRODUCT_DETAILS_MSG;
+import static com.cdsoft.dialogflowserver.util.DialogflowEntities.*;
 import static com.cdsoft.dialogflowserver.util.LogUtil.formatJsonString;
 
 @RestController
@@ -33,30 +37,34 @@ public class DialogflowWebhookController {
         return webhookResponseDto;
     }
 
-    @PostMapping(path = "/day-to-date")
+    @PostMapping(path = "/business-call-notification")
     @ResponseBody
-    public WebhookResponseDto dayToDate(@RequestBody String webhookRequestDtoAsString) throws JsonProcessingException {
-        log.info("DialogflowWebhookController.dayToDate\n webhookRequest is: \n" + formatJsonString(webhookRequestDtoAsString));
+    public WebhookResponseDto businessCallNotification(@RequestBody String webhookRequestDtoAsString) throws JsonProcessingException {
+        log.info("DialogflowWebhookController.businessCallNotification\n webhookRequest is: \n" + formatJsonString(webhookRequestDtoAsString));
         WebhookRequestDto webhookRequestDto = objectMapper.readValue(webhookRequestDtoAsString, WebhookRequestDto.class);
-        WebhookResponseDto webhookResponseDto = replyManager.handleDayToDateRequest(webhookRequestDto);
+        WebhookResponseDto webhookResponseDto = replyManager.handleBusinessCallNotificationRequest(PERFORM_BUSINESS_CALL, webhookRequestDto);
         log.info("webhookResponse is: \n" + objectMapper.writeValueAsString(webhookResponseDto));
         return webhookResponseDto;
     }
 
     @PostMapping(path = "/product-details-mock")
     @ResponseBody
-    public WebhookResponseDto productDetailsMock(@RequestBody String webhookRequestDtoAsString) {
+    public WebhookResponseDto productDetailsMock(@RequestBody String webhookRequestDtoAsString) throws JsonProcessingException {
         log.info("DialogflowWebhookController.productDetailsMock");
         log.info("webhookRequest is: \n" + formatJsonString(webhookRequestDtoAsString));
 
         ArrayList<String> reply = new ArrayList<>();
         reply.add("זה מדפסת/ סורק מעולה של Ultimaker. מה תרצה לדעת עליו?");
 
-        Map<String, String> params = new HashMap<>();
-        params.put("stock_entity", "true");
-        params.put("price_entity", "52.3$");
-        params.put("supply_time_entity", "2021-11-16");
+        WebhookRequestDto webhookRequestDto = objectMapper.readValue(webhookRequestDtoAsString, WebhookRequestDto.class);
+        String productNameWithStars = webhookRequestDto.getText().replace(UNWANTED_TEXT_FOR_PRODUCT_DETAILS_MSG, "");
+        String productName = productNameWithStars.replace("*", "");
 
+        Map<String, String> params = new HashMap<>();
+        params.put(STOCK_ENTITY, "true");
+        params.put(PRICE_ENTITY, "52.3$");
+        params.put(SUPPLY_TIME_ENTITY, "2021-11-16");
+        params.put(PRODUCT_DETAILS_ENTITY, productName);
         MessageDto message = MessageDto.builder()
                 .text(TextDto.builder()
                         .text(reply).build()).build();
