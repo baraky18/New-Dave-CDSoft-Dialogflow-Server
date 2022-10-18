@@ -1,8 +1,8 @@
 package com.cdsoft.dialogflowserver.services;
 
 import com.cdsoft.dialogflowserver.dtos.*;
-import com.cdsoft.dialogflowserver.mappers.language.DayMapper;
 import com.cdsoft.dialogflowserver.enums.DayUtil;
+import com.cdsoft.dialogflowserver.mappers.language.DayMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.cdsoft.dialogflowserver.util.Constants.*;
+import static com.cdsoft.dialogflowserver.util.Constants.CALL_DATE_MSG;
 import static com.cdsoft.dialogflowserver.util.DialogflowEntities.*;
 import static java.time.DayOfWeek.*;
 import static java.time.temporal.TemporalAdjusters.next;
@@ -29,7 +29,8 @@ public class DayAndTimeService {
         log.info("DayAndTimeService.getRequestedDateAndTime");
         String day = webhookRequestDto.getSessionInfo().getParameters().get(DAY_ENTITY);
         int hour = Integer.parseInt(webhookRequestDto.getSessionInfo().getParameters().get(HOUR_ENTITY));
-        int minute = Integer.parseInt(webhookRequestDto.getSessionInfo().getParameters().get(MINUTE_ENTITY));
+        String minuteString = webhookRequestDto.getSessionInfo().getParameters().get(MINUTE_ENTITY);
+        int minute = minuteString != null ? Integer.parseInt(minuteString) : 0;
         return getDateAndTime(day, hour, minute);
     }
 
