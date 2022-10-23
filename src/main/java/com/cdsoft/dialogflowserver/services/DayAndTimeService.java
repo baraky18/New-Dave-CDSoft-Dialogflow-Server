@@ -1,6 +1,6 @@
 package com.cdsoft.dialogflowserver.services;
 
-import com.cdsoft.dialogflowserver.dtos.*;
+import com.cdsoft.dialogflowserver.dtos.google.*;
 import com.cdsoft.dialogflowserver.enums.DayUtil;
 import com.cdsoft.dialogflowserver.mappers.language.DayMapper;
 import lombok.RequiredArgsConstructor;

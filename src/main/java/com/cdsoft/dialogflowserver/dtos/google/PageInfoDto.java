@@ -1,4 +1,4 @@
-package com.cdsoft.dialogflowserver.dtos;
+package com.cdsoft.dialogflowserver.dtos.google;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class IntentInfoDto {
+public class PageInfoDto {
 
-    private String lastMatchedIntent;
+    private String currentPage;
     private String displayName;
-    private double confidence;
 }

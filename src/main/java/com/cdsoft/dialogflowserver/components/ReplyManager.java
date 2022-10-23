@@ -1,7 +1,7 @@
 package com.cdsoft.dialogflowserver.components;
 
-import com.cdsoft.dialogflowserver.dtos.WebhookRequestDto;
-import com.cdsoft.dialogflowserver.dtos.WebhookResponseDto;
+import com.cdsoft.dialogflowserver.dtos.google.WebhookRequestDto;
+import com.cdsoft.dialogflowserver.dtos.google.WebhookResponseDto;
 import com.cdsoft.dialogflowserver.enums.BusinessNotificationType;
 import com.cdsoft.dialogflowserver.services.BusinessNotificationService;
 import com.cdsoft.dialogflowserver.services.DayAndTimeService;

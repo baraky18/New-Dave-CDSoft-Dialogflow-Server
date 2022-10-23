@@ -1,4 +1,4 @@
-package com.cdsoft.dialogflowserver.dtos;
+package com.cdsoft.dialogflowserver.dtos.google;
 
 public enum SessionParameter {
 

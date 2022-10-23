@@ -1,6 +1,6 @@
 package com.cdsoft.dialogflowserver.services;
 
-import com.cdsoft.dialogflowserver.dtos.*;
+import com.cdsoft.dialogflowserver.dtos.google.*;
 import com.cdsoft.dialogflowserver.entities.ProductCategoryDetails;
 import com.cdsoft.dialogflowserver.entities.ProductDetails;
 import com.cdsoft.dialogflowserver.mappers.language.CategoryMapper;
@@ -19,16 +19,16 @@ import static com.cdsoft.dialogflowserver.util.Constants.*;
 @Slf4j
 public class ProductService {
 
-//    private final ProductDetailsRepository productDetailsRepository;
+    private final ProductDetailsRepository productDetailsRepository;
     private final CategoryMapper categoryMapper;
 
     public WebhookResponseDto getProductDetails(WebhookRequestDto webhookRequestDto) {
         log.info("ProductService.getProductDetails");
         String productName = getProductNameFromRequest(webhookRequestDto);
-//        Optional<ProductDetails> productDetailsOptional = productDetailsRepository.findByProductName(productName);
-//        ProductDetails productDetails = productDetailsOptional.orElseGet(ProductDetails::new);
-//        return prepareWebhookResponse(productDetails);
-        return prepareWebhookResponse(new ProductDetails());
+        Optional<ProductDetails> productDetailsOptional = productDetailsRepository.findByProductName(productName);
+        ProductDetails productDetails = productDetailsOptional.orElseGet(ProductDetails::new);
+        return prepareWebhookResponse(productDetails);
+//        return prepareWebhookResponse(new ProductDetails());
     }
 
     private String getProductNameFromRequest(WebhookRequestDto webhookRequestDto) {

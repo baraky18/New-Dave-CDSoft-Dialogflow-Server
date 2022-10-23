@@ -1,15 +1,18 @@
-package com.cdsoft.dialogflowserver.dtos;
+package com.cdsoft.dialogflowserver.dtos.google;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class FulfillmentInfoDto {
+public class TextDto {
 
-    private String tag;
+    private List<String> text;
+    private List<String> redactedText;
 }

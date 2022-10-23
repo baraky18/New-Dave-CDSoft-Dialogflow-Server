@@ -1,6 +1,6 @@
 package com.cdsoft.dialogflowserver.services;
 
-import com.cdsoft.dialogflowserver.dtos.WebhookRequestDto;
+import com.cdsoft.dialogflowserver.dtos.google.WebhookRequestDto;
 import com.cdsoft.dialogflowserver.enums.BusinessNotificationType;
 import com.cdsoft.dialogflowserver.model.BusinessNotification;
 import lombok.RequiredArgsConstructor;

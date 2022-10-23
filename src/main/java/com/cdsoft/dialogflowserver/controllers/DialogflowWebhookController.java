@@ -1,8 +1,7 @@
 package com.cdsoft.dialogflowserver.controllers;
 
 import com.cdsoft.dialogflowserver.components.ReplyManager;
-import com.cdsoft.dialogflowserver.dtos.*;
-import com.cdsoft.dialogflowserver.entities.ProductDetails;
+import com.cdsoft.dialogflowserver.dtos.google.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
