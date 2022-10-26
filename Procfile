@@ -1,1 +1,1 @@
-web: bin/qgtunnel java -jar target/dialogflow-server-0.0.1-SNAPSHOT.jar
+web: bin/qgtunnel java -Dserver.port=$PORT -jar target/dialogflow-server-0.0.1-SNAPSHOT.jar
