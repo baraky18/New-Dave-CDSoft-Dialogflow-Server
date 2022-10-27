@@ -1,1 +1,1 @@
-web: bin/qgtunnel java -Dserver.port=5444 -jar target/dialogflow-server-0.0.1-SNAPSHOT.jar
+web: bin/qgtunnel java $JAVA_OPTS -jar target/dialogflow-server-0.0.1-SNAPSHOT.jar
