@@ -30,7 +30,7 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/cdsoft1_temp
     username: cdsoft1_barak
     password: Barak1234!
-    driverClassName: com.mysql.jdbc.Driver
+#    driverClassName: com.mysql.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
