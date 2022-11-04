@@ -28,7 +28,7 @@ spring:
   #TODO uncomment when Heroku will work with MySQL
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/cdsoft1_temp
-    username: barak_2
+    username: barak_1
     password: Barak1234!
 #    driverClassName: com.mysql.jdbc.Driver
   jpa:
