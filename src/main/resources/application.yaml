@@ -27,9 +27,9 @@ spring:
             protocols: TLSv1.2
   #TODO uncomment when Heroku will work with MySQL
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/cdsoft1_temp
-    username: barak_1
-    password: Barak1234!
+    url: jdbc:mysql://eu-cdbr-west-03.cleardb.net:3306/heroku_d128fbed6b62405
+    username: b5504d5a0db4a5
+    password: e7c646d2
 #    driverClassName: com.mysql.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
