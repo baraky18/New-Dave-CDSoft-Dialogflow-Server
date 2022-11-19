@@ -26,7 +26,7 @@ public class CustomerService {
         Optional<Customer> customerOptional = customerRepository.findByPhoneNumber(phoneNumber);
         if(customerOptional.isEmpty()){
             CustomerDetailsDto customerDetailsDto = integratorRestTemplate.getForObject("/customer/phone-number/" + phoneNumber, CustomerDetailsDto.class);
-            if(customerDetailsDto == null || customerDetailsDto.getFirstName().isEmpty()){
+            if(customerDetailsDto == null || customerDetailsDto.getFirstName() == null || customerDetailsDto.getFirstName().isEmpty()){
                 return CustomerDetailsDto.builder().build();
             }
             customerRepository.save(customerDetailsDtoToCustomerMapper.map(customerDetailsDto));
