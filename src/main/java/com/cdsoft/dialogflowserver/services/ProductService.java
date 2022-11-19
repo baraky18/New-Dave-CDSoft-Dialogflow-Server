@@ -2,6 +2,7 @@ package com.cdsoft.dialogflowserver.services;
 
 import com.cdsoft.dialogflowserver.dtos.google.*;
 import com.cdsoft.dialogflowserver.dtos.integrator.ProductDetailsDto;
+import com.cdsoft.dialogflowserver.dtos.integrator.ProductRequestDto;
 import com.cdsoft.dialogflowserver.mappers.language.CategoryMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,8 @@ public class ProductService {
     public WebhookResponseDto getProductDetails(WebhookRequestDto webhookRequestDto) {
         log.info("ProductService.getProductDetails");
         String productName = getProductNameFromRequest(webhookRequestDto);
-        ProductDetailsDto productDetailsDto = integratorRestTemplate.getForObject("/name/" + productName, ProductDetailsDto.class);
+        ProductRequestDto productRequestDto = ProductRequestDto.builder().productName(productName).build();
+        ProductDetailsDto productDetailsDto = integratorRestTemplate.postForObject("/name", productRequestDto, ProductDetailsDto.class);
 
 
 //        Optional<ProductDetails> productDetailsOptional = productDetailsRepository.findByProductName(productName);
