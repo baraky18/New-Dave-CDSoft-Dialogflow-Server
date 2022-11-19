@@ -30,7 +30,7 @@ public class ProductService {
         log.info("ProductService.getProductDetails");
         String productName = getProductNameFromRequest(webhookRequestDto);
         ProductRequestDto productRequestDto = ProductRequestDto.builder().productName(productName).build();
-        ProductDetailsDto productDetailsDto = integratorRestTemplate.postForObject(integratorServerUrl + "/name", productRequestDto, ProductDetailsDto.class);
+        ProductDetailsDto productDetailsDto = integratorRestTemplate.postForObject("https://new-dave-cdsoft-integrator.herokuapp.com/name", productRequestDto, ProductDetailsDto.class);
 
 
 //        Optional<ProductDetails> productDetailsOptional = productDetailsRepository.findByProductName(productName);
