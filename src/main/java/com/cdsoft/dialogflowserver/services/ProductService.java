@@ -6,6 +6,7 @@ import com.cdsoft.dialogflowserver.dtos.integrator.ProductRequestDto;
 import com.cdsoft.dialogflowserver.mappers.language.CategoryMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,6 +19,9 @@ import static com.cdsoft.dialogflowserver.util.Constants.*;
 @Slf4j
 public class ProductService {
 
+    @Value("${integrator.url}")
+    private String integratorServerUrl;
+
     private final RestTemplate integratorRestTemplate;
 //    private final ProductDetailsRepository productDetailsRepository;
     private final CategoryMapper categoryMapper;
@@ -26,7 +30,7 @@ public class ProductService {
         log.info("ProductService.getProductDetails");
         String productName = getProductNameFromRequest(webhookRequestDto);
         ProductRequestDto productRequestDto = ProductRequestDto.builder().productName(productName).build();
-        ProductDetailsDto productDetailsDto = integratorRestTemplate.postForObject("/name", productRequestDto, ProductDetailsDto.class);
+        ProductDetailsDto productDetailsDto = integratorRestTemplate.postForObject(integratorServerUrl + "/name", productRequestDto, ProductDetailsDto.class);
 
 
 //        Optional<ProductDetails> productDetailsOptional = productDetailsRepository.findByProductName(productName);
