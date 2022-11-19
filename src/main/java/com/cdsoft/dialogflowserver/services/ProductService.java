@@ -6,21 +6,21 @@ import com.cdsoft.dialogflowserver.dtos.integrator.ProductRequestDto;
 import com.cdsoft.dialogflowserver.mappers.language.CategoryMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.cdsoft.dialogflowserver.util.Constants.*;
+import static com.cdsoft.dialogflowserver.util.DialogflowEntities.*;
+import static com.cdsoft.dialogflowserver.util.DialogflowEntities.PRODUCT_DETAILS_ENTITY;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class ProductService {
-
-    @Value("${integrator.url}")
-    private String integratorServerUrl;
 
     private final RestTemplate integratorRestTemplate;
 //    private final ProductDetailsRepository productDetailsRepository;
@@ -49,11 +49,18 @@ public class ProductService {
     private WebhookResponseDto prepareWebhookResponse(ProductDetailsDto productDetailsDto) {
         log.info("ProductService.prepareWebhookResponse");
         ArrayList<String> reply = new ArrayList<>();
+        Map<String, String> params = new HashMap<>();
+
+        params.put(PRICE_ENTITY, Double.toString(productDetailsDto.getPrice()));
+        params.put(SUPPLY_TIME_ENTITY, "2021-11-16"); //TODO need to understand from Dvir how this is populated
+        params.put(PRODUCT_DETAILS_ENTITY, productDetailsDto.getProductName());
         if(IS_IN_STOCK == productDetailsDto.getIsInStock()){
             reply.add(inStockMsg(productDetailsDto));
+            params.put(STOCK_ENTITY, "true");
         }
         else{
             reply.add(NOT_IN_STOCK_MSG);
+            params.put(STOCK_ENTITY, "false");
         }
         MessageDto message = MessageDto.builder()
                 .text(TextDto.builder()
@@ -61,6 +68,8 @@ public class ProductService {
         ArrayList<MessageDto> messages = new ArrayList<>();
         messages.add(message);
         return WebhookResponseDto.builder()
+                .sessionInfoDto(SessionInfoDto.builder()
+                        .parameters(params).build())
                 .fulfillmentResponseDto(FulfillmentResponseDto.builder()
                         .messages(messages).build()).build();
     }
