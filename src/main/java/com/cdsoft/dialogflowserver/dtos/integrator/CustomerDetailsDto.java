@@ -1,4 +1,4 @@
-package com.cdsoft.dialogflowserver.dtos.customer;
+package com.cdsoft.dialogflowserver.dtos.integrator;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

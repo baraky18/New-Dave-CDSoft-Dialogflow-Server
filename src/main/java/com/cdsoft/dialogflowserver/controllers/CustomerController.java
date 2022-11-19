@@ -1,6 +1,6 @@
 package com.cdsoft.dialogflowserver.controllers;
 
-import com.cdsoft.dialogflowserver.dtos.customer.CustomerDetailsDto;
+import com.cdsoft.dialogflowserver.dtos.integrator.CustomerDetailsDto;
 import com.cdsoft.dialogflowserver.services.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

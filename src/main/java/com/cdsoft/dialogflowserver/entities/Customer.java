@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "ps_customer")
+@Table(name = "customer")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -18,19 +18,23 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_customer")
+    @Column(name = "customer_id")
     private Long customerId;
 
-    @Column(name = "firstname")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "lastname")
+    @Column(name = "last_name")
     private String lastName;
 
-    @OneToMany
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @OneToMany(mappedBy = "customer")
     private List<Address> addresses;
 
-//    @Column(name = "phone_number") //TODO to be updated after I understand where does the phone number come from this DB
-    private String phoneNumber = "972528764763"; //TODO (= "972528764763") to be removed after I understand where does the phone number come from this DB
+    @OneToOne
+    @JoinColumn(name = "session_id")
+    private Session session;
 }
 

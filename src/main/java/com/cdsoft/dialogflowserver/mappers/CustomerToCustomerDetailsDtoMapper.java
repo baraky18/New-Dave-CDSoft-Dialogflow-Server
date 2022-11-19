@@ -1,6 +1,6 @@
 package com.cdsoft.dialogflowserver.mappers;
 
-import com.cdsoft.dialogflowserver.dtos.customer.CustomerDetailsDto;
+import com.cdsoft.dialogflowserver.dtos.integrator.CustomerDetailsDto;
 import com.cdsoft.dialogflowserver.entities.Customer;
 import org.springframework.stereotype.Component;
 

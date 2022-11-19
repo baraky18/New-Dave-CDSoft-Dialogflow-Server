@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ps_address")
+@Table(name = "address")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -17,17 +17,28 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_address")
+    @Column(name = "address_id")
     private Long addressId;
 
-    @Column(name = "phone")
-    private String phone;
-
-    @Column(name = "phone_mobile")
-    private String mobilePhone;
+    @ManyToOne()
+    @JoinColumn(name = "country_id")
+    private Country country;
 
     @ManyToOne()
-    @JoinColumn(name = "id_customer")
-    private Customer customerId;
+    @JoinColumn(name = "city_id")
+    private City city;
+
+    @ManyToOne()
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
+    @Column(name = "street_name")
+    private String streetName;
+
+    @Column(name = "street_number")
+    private int streetNumber;
+
+    @Column(name = "house_number")
+    private int houseNumber;
 }
 

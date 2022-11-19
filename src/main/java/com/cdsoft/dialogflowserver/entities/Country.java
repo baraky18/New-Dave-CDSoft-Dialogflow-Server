@@ -8,18 +8,21 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ps_manufacturer")
+@Table(name = "country")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class Manufacturer {
+public class Country {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_manufacturer")
-    private Long manufacturerId;
+    @Column(name = "country_id")
+    private Long countryId;
 
-    @Column(name = "name")
-    private String manufacturerName;
+    @Column(name = "country_name")
+    private String countryName;
+
+    @Column(name = "country_alpha2_code")
+    private String countryCode;
 }

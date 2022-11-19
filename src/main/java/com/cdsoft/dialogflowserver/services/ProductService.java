@@ -1,16 +1,14 @@
 package com.cdsoft.dialogflowserver.services;
 
 import com.cdsoft.dialogflowserver.dtos.google.*;
-import com.cdsoft.dialogflowserver.entities.ProductCategoryDetails;
-import com.cdsoft.dialogflowserver.entities.ProductDetails;
+import com.cdsoft.dialogflowserver.dtos.integrator.ProductDetailsDto;
 import com.cdsoft.dialogflowserver.mappers.language.CategoryMapper;
-import com.cdsoft.dialogflowserver.repositories.ProductDetailsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 import static com.cdsoft.dialogflowserver.util.Constants.*;
 
@@ -19,15 +17,19 @@ import static com.cdsoft.dialogflowserver.util.Constants.*;
 @Slf4j
 public class ProductService {
 
-    private final ProductDetailsRepository productDetailsRepository;
+    private final RestTemplate integratorRestTemplate;
+//    private final ProductDetailsRepository productDetailsRepository;
     private final CategoryMapper categoryMapper;
 
     public WebhookResponseDto getProductDetails(WebhookRequestDto webhookRequestDto) {
         log.info("ProductService.getProductDetails");
         String productName = getProductNameFromRequest(webhookRequestDto);
-        Optional<ProductDetails> productDetailsOptional = productDetailsRepository.findByProductName(productName);
-        ProductDetails productDetails = productDetailsOptional.orElseGet(ProductDetails::new);
-        return prepareWebhookResponse(productDetails);
+        ProductDetailsDto productDetailsDto = integratorRestTemplate.getForObject("/name/" + productName, ProductDetailsDto.class);
+
+
+//        Optional<ProductDetails> productDetailsOptional = productDetailsRepository.findByProductName(productName);
+//        ProductDetails productDetails = productDetailsOptional.orElseGet(ProductDetails::new);
+        return prepareWebhookResponse(productDetailsDto);
 //        return prepareWebhookResponse(new ProductDetails());
     }
 
@@ -38,11 +40,11 @@ public class ProductService {
         return productName;
     }
 
-    private WebhookResponseDto prepareWebhookResponse(ProductDetails productDetails) {
+    private WebhookResponseDto prepareWebhookResponse(ProductDetailsDto productDetailsDto) {
         log.info("ProductService.prepareWebhookResponse");
         ArrayList<String> reply = new ArrayList<>();
-        if(IS_IN_STOCK.equalsIgnoreCase(productDetails.getIsInStock())){
-            reply.add(inStockMsg(productDetails));
+        if(IS_IN_STOCK == productDetailsDto.getIsInStock()){
+            reply.add(inStockMsg(productDetailsDto));
         }
         else{
             reply.add(NOT_IN_STOCK_MSG);
@@ -57,9 +59,14 @@ public class ProductService {
                         .messages(messages).build()).build();
     }
 
-    private String inStockMsg(ProductDetails productDetails) {
-        Optional<ProductCategoryDetails> optionalCategory = productDetails.getProductCategoryDetails().stream().filter(p -> p.getProductCategoryParentId().intValue() == 2).findFirst();
-        String categoryName = optionalCategory.isPresent() ? optionalCategory.get().getCategoryName() : PRODUCT;
-        return String.format(IN_STOCK_MSG, categoryMapper.map(categoryName), productDetails.getManufacturer().getManufacturerName());
+    private String inStockMsg(ProductDetailsDto productDetailsDto) {
+//        Optional<ProductCategoryDetails> optionalCategory =
+//                productDetailsDto.getProductCategoriesDetails().stream()
+//                .filter(p -> p.getProductCategoryParentId().intValue() == 2)
+//                .findFirst();
+//        String categoryName = optionalCategory.isPresent() ? optionalCategory.get().getCategoryName() : PRODUCT;
+        return String.format(IN_STOCK_MSG,
+                categoryMapper.map(productDetailsDto.getProductCategoryDetails().getCategoryName()),
+                productDetailsDto.getManufacturer().getManufacturerName());
     }
 }

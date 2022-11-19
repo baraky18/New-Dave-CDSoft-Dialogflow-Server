@@ -33,5 +33,5 @@ public class Product {
 
     @OneToOne
     @JoinColumn(name = "id_manufacturer")
-    private Manufacturer manufacturer;
+    private Country manufacturer;
 }
