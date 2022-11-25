@@ -23,7 +23,6 @@ import static com.cdsoft.dialogflowserver.util.DialogflowEntities.PRODUCT_DETAIL
 public class ProductService {
 
     private final RestTemplate integratorRestTemplate;
-//    private final ProductDetailsRepository productDetailsRepository;
     private final CategoryMapper categoryMapper;
 
     public WebhookResponseDto getProductDetails(WebhookRequestDto webhookRequestDto) {
@@ -31,12 +30,7 @@ public class ProductService {
         String productName = getProductNameFromRequest(webhookRequestDto);
         ProductRequestDto productRequestDto = ProductRequestDto.builder().productName(productName).build();
         ProductDetailsDto productDetailsDto = integratorRestTemplate.postForObject("/product/name", productRequestDto, ProductDetailsDto.class);
-
-
-//        Optional<ProductDetails> productDetailsOptional = productDetailsRepository.findByProductName(productName);
-//        ProductDetails productDetails = productDetailsOptional.orElseGet(ProductDetails::new);
         return prepareWebhookResponse(productDetailsDto);
-//        return prepareWebhookResponse(new ProductDetails());
     }
 
     private String getProductNameFromRequest(WebhookRequestDto webhookRequestDto) {
@@ -75,11 +69,6 @@ public class ProductService {
     }
 
     private String inStockMsg(ProductDetailsDto productDetailsDto) {
-//        Optional<ProductCategoryDetails> optionalCategory =
-//                productDetailsDto.getProductCategoriesDetails().stream()
-//                .filter(p -> p.getProductCategoryParentId().intValue() == 2)
-//                .findFirst();
-//        String categoryName = optionalCategory.isPresent() ? optionalCategory.get().getCategoryName() : PRODUCT;
         return String.format(IN_STOCK_MSG,
                 categoryMapper.map(productDetailsDto.getProductCategoryDetails().getCategoryName()),
                 productDetailsDto.getManufacturer().getManufacturerName());
