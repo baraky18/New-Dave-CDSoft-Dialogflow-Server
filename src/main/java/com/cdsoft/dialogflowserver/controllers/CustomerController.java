@@ -1,6 +1,6 @@
 package com.cdsoft.dialogflowserver.controllers;
 
-import com.cdsoft.dialogflowserver.dtos.integrator.CustomerDetailsDto;
+import com.cdsoft.dialogflowserver.dtos.whatsapp.WhatsappCustomerDetailsDto;
 import com.cdsoft.dialogflowserver.services.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ public class CustomerController {
 
     @GetMapping(path = "/phone-number/{phoneNumber}")
     @ResponseBody
-    public CustomerDetailsDto getCustomerDetails(@PathVariable String phoneNumber) {
+    public WhatsappCustomerDetailsDto getCustomerDetails(@PathVariable String phoneNumber) throws Exception {
         log.info("CustomerController.getCustomerDetails\n phoneNumber is: "+ phoneNumber);
         return customerService.getCustomerDetails(phoneNumber);
     }

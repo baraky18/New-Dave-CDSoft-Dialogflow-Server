@@ -37,8 +37,7 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<Address> addresses;
 
-    @OneToOne
-    @JoinColumn(name = "session_id")
+    @OneToOne(mappedBy = "customer")
     private Session session;
 }
 

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -23,4 +24,14 @@ public class Session {
 
     @Column(name = "session_uuid")
     private UUID sessionUuid;
+
+    @Column(name = "session_name")
+    private String sessionName;
+
+    @OneToOne
+    @JoinColumn(name = "customer")
+    private Customer customer;
+
+    @OneToMany(mappedBy = "session")
+    private List<Message> messages;
 }

@@ -1,14 +1,13 @@
 package com.cdsoft.dialogflowserver.services;
 
-import com.cdsoft.dialogflowserver.dtos.integrator.CustomerDetailsDto;
+import com.cdsoft.dialogflowserver.dtos.whatsapp.WhatsappCustomerDetailsDto;
 import com.cdsoft.dialogflowserver.entities.Customer;
-import com.cdsoft.dialogflowserver.mappers.CustomerDetailsDtoToCustomerMapper;
-import com.cdsoft.dialogflowserver.mappers.CustomerToCustomerDetailsDtoMapper;
+import com.cdsoft.dialogflowserver.mappers.CustomerToWhatsappCustomerDetailsDtoMapper;
 import com.cdsoft.dialogflowserver.repositories.CustomerRepository;
+import com.cdsoft.dialogflowserver.services.integrator.IntegratorCustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
@@ -18,20 +17,16 @@ import java.util.Optional;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final CustomerToCustomerDetailsDtoMapper customerToCustomerDtoMapper;
-    private final CustomerDetailsDtoToCustomerMapper customerDetailsDtoToCustomerMapper;
-    private final RestTemplate integratorRestTemplate;
+    private final CustomerToWhatsappCustomerDetailsDtoMapper customerToWhatsappCustomerDetailsDtoMapper;
+    private final IntegratorCustomerService integratorCustomerService;
 
-    public CustomerDetailsDto getCustomerDetails(String phoneNumber) {
+    public WhatsappCustomerDetailsDto getCustomerDetails(String phoneNumber) throws Exception {
         Optional<Customer> customerOptional = customerRepository.findByPhoneNumber(phoneNumber);
         if(customerOptional.isEmpty()){
-            CustomerDetailsDto customerDetailsDto = integratorRestTemplate.getForObject("/customer/phone-number/" + phoneNumber, CustomerDetailsDto.class);
-            if(customerDetailsDto == null || customerDetailsDto.getFirstName() == null || customerDetailsDto.getFirstName().isEmpty()){
-                return CustomerDetailsDto.builder().build();
-            }
-            customerRepository.save(customerDetailsDtoToCustomerMapper.map(customerDetailsDto));
-            return customerDetailsDto;
+            Customer customer = integratorCustomerService.getCustomerDetails(phoneNumber);
+            customerRepository.save(customer);
+            return customerToWhatsappCustomerDetailsDtoMapper.map(customer);
         }
-        return customerToCustomerDtoMapper.map(customerOptional.get());
+        return customerToWhatsappCustomerDetailsDtoMapper.map(customerOptional.get());
     }
 }
