@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "message")
@@ -22,6 +23,9 @@ public class Message {
 
     @Column(name = "text")
     private String text;
+
+    @Column(name = "sent_date")
+    private Date sentDate;
 
     @ManyToOne
     @JoinColumn(name = "session")

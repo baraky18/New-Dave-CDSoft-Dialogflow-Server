@@ -9,6 +9,9 @@ public class MessageToWhatsappMessageDtoMapper implements Mapper<WhatsappMessage
 
     @Override
     public WhatsappMessageDto map(Message message) {
-        return null;
+        return WhatsappMessageDto.builder()
+                .text(message.getText())
+                .sentDate(message.getSentDate())
+                .build();
     }
 }
