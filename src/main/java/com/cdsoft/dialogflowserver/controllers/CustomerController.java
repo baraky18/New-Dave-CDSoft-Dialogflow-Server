@@ -20,4 +20,10 @@ public class CustomerController {
         log.info("CustomerController.getCustomerDetails\n phoneNumber is: "+ phoneNumber);
         return customerService.getCustomerDetails(phoneNumber);
     }
+
+    @PostMapping
+    public void createCustomerDetails(@RequestBody WhatsappCustomerDetailsDto whatsappCustomerDetailsDto) {
+        log.info("CustomerController.createCustomerDetails\n phoneNumber is: "+ whatsappCustomerDetailsDto.getPhoneNumber());
+        customerService.createCustomerDetails(whatsappCustomerDetailsDto);
+    }
 }

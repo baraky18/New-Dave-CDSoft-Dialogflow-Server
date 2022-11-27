@@ -29,4 +29,8 @@ public class CustomerService {
         }
         return customerToWhatsappCustomerDetailsDtoMapper.map(customerOptional.get());
     }
+
+    public void createCustomerDetails(WhatsappCustomerDetailsDto whatsappCustomerDetailsDto) {
+        customerRepository.save(customerToWhatsappCustomerDetailsDtoMapper.remap(whatsappCustomerDetailsDto));
+    }
 }

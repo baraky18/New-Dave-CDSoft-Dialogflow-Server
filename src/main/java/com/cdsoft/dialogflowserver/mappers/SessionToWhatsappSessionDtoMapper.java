@@ -29,4 +29,17 @@ public class SessionToWhatsappSessionDtoMapper implements Mapper<WhatsappSession
         messages.stream().forEach(m -> WhatsappMessages.add(messageToWhatsappMessageDtoMapper.map(m)));
         return WhatsappMessages;
     }
+
+    public Session remap(WhatsappSessionDto whatsappSessionDto) {
+        return Session.builder()
+                .sessionName(whatsappSessionDto.getSessionName())
+                .messages(remapMessages(whatsappSessionDto.getWhatsappMessageDtoList()))
+                .build();
+    }
+
+    private List<Message> remapMessages(List<WhatsappMessageDto> whatsappMessageDtoList) {
+        List<Message> messages = new ArrayList<>();
+        whatsappMessageDtoList.stream().forEach(m -> messages.add(messageToWhatsappMessageDtoMapper.remap(m)));
+        return messages;
+    }
 }

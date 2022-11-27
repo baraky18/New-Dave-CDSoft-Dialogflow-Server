@@ -14,4 +14,11 @@ public class MessageToWhatsappMessageDtoMapper implements Mapper<WhatsappMessage
                 .sentDate(message.getSentDate())
                 .build();
     }
+
+    public Message remap(WhatsappMessageDto whatsappMessageDto) {
+        return Message.builder()
+                .text(whatsappMessageDto.getText())
+                .sentDate(whatsappMessageDto.getSentDate())
+                .build();
+    }
 }
