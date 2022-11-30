@@ -13,7 +13,7 @@ import java.util.UUID;
 @Table(name = "session")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+//@Data
 @Builder
 public class Session {
 
@@ -34,4 +34,12 @@ public class Session {
 
     @OneToMany(mappedBy = "session")
     private List<Message> messages;
+
+    public String getSessionName() {
+        return this.sessionName;
+    }
+
+    public List<Message> getMessages() {
+        return this.messages;
+    }
 }

@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table(name = "address")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+//@Data
 @Builder
 public class Address {
 
@@ -40,5 +40,25 @@ public class Address {
 
     @Column(name = "house_number")
     private int houseNumber;
+
+    public Country getCountry() {
+        return this.country;
+    }
+
+    public City getCity() {
+        return this.city;
+    }
+
+    public String getStreetName() {
+        return this.streetName;
+    }
+
+    public int getStreetNumber() {
+        return this.streetNumber;
+    }
+
+    public int getHouseNumber() {
+        return this.houseNumber;
+    }
 }
 
