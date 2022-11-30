@@ -20,6 +20,6 @@ public class City {
     @Column(name = "city_id")
     private Long cityId;
 
-    @Column(name = "country_name")
+    @Column(name = "city_name")
     private String cityName;
 }
