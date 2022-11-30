@@ -28,8 +28,8 @@ public class Session {
     @Column(name = "session_name")
     private String sessionName;
 
-    @OneToOne
-    @JoinColumn(name = "customer")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer", referencedColumnName = "customer_id")
     private Customer customer;
 
     @OneToMany(mappedBy = "session")
