@@ -27,7 +27,7 @@ public class CustomerService {
             customerRepository.save(customer);
             return customerToWhatsappCustomerDetailsDtoMapper.map(customer);
         }
-        log.info("customer is: "+ customerOptional.get().getCustomerId() + customerOptional.get().getFirstName() + customerOptional.get().getLastName() + customerOptional.get().getGender() + customerOptional.get().getSession());
+        log.info("customer is: "+ customerOptional.get().getCustomerId() + customerOptional.get().getFirstName() + customerOptional.get().getLastName() + customerOptional.get().getGender() + customerOptional.get().getSession().getSessionName());
         return customerToWhatsappCustomerDetailsDtoMapper.map(customerOptional.get());
     }
 
