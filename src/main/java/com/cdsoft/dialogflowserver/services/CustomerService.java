@@ -34,4 +34,12 @@ public class CustomerService {
     public void createCustomerDetails(WhatsappCustomerDetailsDto whatsappCustomerDetailsDto) {
         customerRepository.save(customerToWhatsappCustomerDetailsDtoMapper.remap(whatsappCustomerDetailsDto));
     }
+
+    public Customer getInternalCustomerDetails(String phoneNumber) throws Exception {
+        Optional<Customer> customerOptional = customerRepository.findByPhoneNumber(phoneNumber);
+        if(customerOptional.isEmpty()){
+            throw new Exception("customer is not found in New Dave's DB");
+        }
+        return customerOptional.get();
+    }
 }

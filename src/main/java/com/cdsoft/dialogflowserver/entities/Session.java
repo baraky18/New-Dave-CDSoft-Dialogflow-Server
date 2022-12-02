@@ -1,9 +1,6 @@
 package com.cdsoft.dialogflowserver.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,7 +10,7 @@ import java.util.UUID;
 @Table(name = "session")
 @NoArgsConstructor
 @AllArgsConstructor
-//@Data
+@Data
 @Builder
 public class Session {
 
@@ -30,16 +27,10 @@ public class Session {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer", referencedColumnName = "customer_id")
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     private Customer customer;
 
     @OneToMany(mappedBy = "session")
     private List<Message> messages;
-
-    public String getSessionName() {
-        return this.sessionName;
-    }
-
-    public List<Message> getMessages() {
-        return this.messages;
-    }
 }
