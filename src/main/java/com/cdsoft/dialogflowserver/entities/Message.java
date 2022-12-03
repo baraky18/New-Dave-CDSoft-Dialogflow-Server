@@ -27,5 +27,6 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "session")
+    @ToString.Exclude
     private Session session;
 }

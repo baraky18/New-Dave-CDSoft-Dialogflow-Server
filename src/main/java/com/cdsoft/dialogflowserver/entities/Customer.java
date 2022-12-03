@@ -33,9 +33,11 @@ public class Customer {
     private Gender gender;
 
     @OneToMany(mappedBy = "customer")
+    @ToString.Exclude
     private List<Address> addresses;
 
     @OneToOne(mappedBy = "customer")
+    @ToString.Exclude
     private Session session;
 }
 
