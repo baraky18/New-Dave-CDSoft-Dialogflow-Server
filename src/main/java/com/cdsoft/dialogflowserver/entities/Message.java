@@ -24,7 +24,7 @@ public class Message {
     private String text;
 
     @Column(name = "sent_date", columnDefinition = "DATETIME")
-    private LocalDateTime sentDate;
+    private LocalDateTime sentDateTime;
 
     @ManyToOne
     @JoinColumn(name = "session")

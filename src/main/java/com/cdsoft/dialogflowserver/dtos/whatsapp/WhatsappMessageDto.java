@@ -12,5 +12,5 @@ import java.time.LocalDateTime;
 public class WhatsappMessageDto {
 
     private String text;
-    private LocalDateTime sentDate;
+    private LocalDateTime sentDateTime;
 }
