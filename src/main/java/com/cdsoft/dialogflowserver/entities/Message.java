@@ -3,6 +3,7 @@ package com.cdsoft.dialogflowserver.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -23,7 +24,7 @@ public class Message {
     private String text;
 
     @Column(name = "sent_date", columnDefinition = "DATETIME")
-    private Date sentDate;
+    private LocalDateTime sentDate;
 
     @ManyToOne
     @JoinColumn(name = "session")
