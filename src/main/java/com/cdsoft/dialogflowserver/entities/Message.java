@@ -22,7 +22,7 @@ public class Message {
     @Column(name = "text")
     private String text;
 
-    @Column(name = "sent_date")
+    @Column(name = "sent_date", columnDefinition = "DATETIME")
     private Date sentDate;
 
     @ManyToOne
