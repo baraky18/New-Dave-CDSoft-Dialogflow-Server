@@ -28,7 +28,7 @@ public class CustomerService {
             customerRepository.save(customer);
             return customerToWhatsappCustomerDetailsDtoMapper.map(customer);
         }
-        log.info("customer is: "+ customerOptional.get());
+//        log.info("customer is: "+ customerOptional.get());
         return customerToWhatsappCustomerDetailsDtoMapper.map(customerOptional.get());
     }
 
@@ -42,7 +42,7 @@ public class CustomerService {
         if(customerOptional.isEmpty()){
             throw new Exception("customer is not found in New Dave's DB");
         }
-        log.info("customer is: "+ customerOptional.get());
+//        log.info("customer is: "+ customerOptional.get());
         return customerOptional.get();
     }
 }
