@@ -16,7 +16,7 @@ public class MessageController {
 
     @PostMapping(path = "/phone-number/{phoneNumber}")
     public void createMessage(@PathVariable String phoneNumber, @RequestBody WhatsappMessageDto whatsappMessageDto) throws Exception {
-        log.info("MessageController.createMessage\n phoneNumber is: "+ phoneNumber + " message is: " + whatsappMessageDto.getText());
+        log.info("MessageController.createMessage\n phoneNumber is: "+ phoneNumber + " message is: " + whatsappMessageDto);
         messageService.createMessage(phoneNumber, whatsappMessageDto);
     }
 }
