@@ -1,10 +1,7 @@
 package com.cdsoft.dialogflowserver.entities;
 
 import com.cdsoft.dialogflowserver.enums.Gender;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
+@ToString
 public class Customer {
 
     @Id

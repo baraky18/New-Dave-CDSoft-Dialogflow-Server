@@ -1,9 +1,6 @@
 package com.cdsoft.dialogflowserver.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,6 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Data
 @Builder
+@ToString
 public class Message {
 
     @Id

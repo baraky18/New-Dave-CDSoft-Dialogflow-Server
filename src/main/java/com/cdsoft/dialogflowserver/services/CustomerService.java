@@ -21,13 +21,14 @@ public class CustomerService {
     private final IntegratorCustomerService integratorCustomerService;
 
     public WhatsappCustomerDetailsDto getCustomerDetails(String phoneNumber) throws Exception {
+        log.info("CustomerService.getCustomerDetails");
         Optional<Customer> customerOptional = customerRepository.findByPhoneNumber(phoneNumber);
         if(customerOptional.isEmpty()){
             Customer customer = integratorCustomerService.getCustomerDetails(phoneNumber);
             customerRepository.save(customer);
             return customerToWhatsappCustomerDetailsDtoMapper.map(customer);
         }
-        log.info("customer is: "+ customerOptional.get().getCustomerId() + customerOptional.get().getFirstName() + customerOptional.get().getLastName() + customerOptional.get().getGender() + customerOptional.get().getSession().getSessionName());
+        log.info("customer is: "+ customerOptional.get());
         return customerToWhatsappCustomerDetailsDtoMapper.map(customerOptional.get());
     }
 
@@ -36,10 +37,12 @@ public class CustomerService {
     }
 
     public Customer getInternalCustomerDetails(String phoneNumber) throws Exception {
+        log.info("CustomerService.getInternalCustomerDetails");
         Optional<Customer> customerOptional = customerRepository.findByPhoneNumber(phoneNumber);
         if(customerOptional.isEmpty()){
             throw new Exception("customer is not found in New Dave's DB");
         }
+        log.info("customer is: "+ customerOptional.get());
         return customerOptional.get();
     }
 }
