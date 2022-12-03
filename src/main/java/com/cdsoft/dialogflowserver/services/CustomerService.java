@@ -29,9 +29,6 @@ public class CustomerService {
             return customerToWhatsappCustomerDetailsDtoMapper.map(customer);
         }
         log.info("customer is: "+ customerOptional.get());
-        log.info("message date time is: "+ customerOptional.get().getSession().getMessages().get(0).getSentDateTime());
-        WhatsappCustomerDetailsDto whatsappCustomerDetailsDto = customerToWhatsappCustomerDetailsDtoMapper.map(customerOptional.get());
-        log.info("message date time is: "+ whatsappCustomerDetailsDto.getWhatsappSessionDto().getWhatsappMessageDtoList().get(0).getSentDateTime());
         return customerToWhatsappCustomerDetailsDtoMapper.map(customerOptional.get());
     }
 

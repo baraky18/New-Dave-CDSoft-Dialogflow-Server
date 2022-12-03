@@ -15,4 +15,5 @@ public class WhatsappSessionDto {
 
     private String sessionName;
     private List<WhatsappMessageDto> whatsappMessageDtoList;
+    private String sessionUuid;
 }
