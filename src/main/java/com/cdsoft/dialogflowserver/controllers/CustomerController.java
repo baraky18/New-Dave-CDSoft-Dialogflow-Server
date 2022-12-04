@@ -29,8 +29,8 @@ public class CustomerController {
         customerService.createCustomerDetails(whatsappCustomerDetailsDto);
     }
 
-    @PatchMapping(path = "/session-uuid/{phoneNumber}")
-    public String patchNewCustomerSessionUuid(@PathVariable String phoneNumber, @RequestBody String sessionUuid) throws Exception {
+    @GetMapping(path = "/session-uuid/{phoneNumber}")
+    public String getNewCustomerSessionUuid(@PathVariable String phoneNumber) throws Exception {
         log.info("CustomerController.patchNewCustomerSessionUuid\n phoneNumber is: "+ phoneNumber);
         return sessionService.patchSessionUuid(phoneNumber);
     }
