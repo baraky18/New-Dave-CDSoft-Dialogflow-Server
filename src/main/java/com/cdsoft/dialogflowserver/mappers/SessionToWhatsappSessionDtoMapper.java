@@ -22,7 +22,7 @@ public class SessionToWhatsappSessionDtoMapper implements Mapper<WhatsappSession
         return WhatsappSessionDto.builder()
                 .sessionName(session.getSessionName())
                 .whatsappMessageDtoList(mapMessages(session.getMessages()))
-                .sessionUuid(session.getSessionUuid().toString())
+                .sessionUuid(session.getSessionUuid())
                 .build();
     }
 
@@ -36,7 +36,7 @@ public class SessionToWhatsappSessionDtoMapper implements Mapper<WhatsappSession
         return Session.builder()
                 .sessionName(whatsappSessionDto.getSessionName())
                 .messages(remapMessages(whatsappSessionDto.getWhatsappMessageDtoList()))
-                .sessionUuid(UUID.fromString(whatsappSessionDto.getSessionUuid()))
+                .sessionUuid(whatsappSessionDto.getSessionUuid())
                 .build();
     }
 

@@ -20,7 +20,7 @@ public class Session {
     private Long sessionId;
 
     @Column(name = "session_uuid")
-    private UUID sessionUuid;
+    private String sessionUuid;
 
     @Column(name = "session_name")
     private String sessionName;

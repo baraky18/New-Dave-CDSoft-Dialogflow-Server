@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 @Service
@@ -18,10 +19,13 @@ public class SessionService {
     private final CustomerService customerService;
 
 
-    public void patchSessionUuid(String phoneNumber, String sessionUuid) throws Exception {
+    public String patchSessionUuid(String phoneNumber) throws Exception {
         Customer customer = customerService.getInternalCustomerDetails(phoneNumber);
+        byte[] uuidByteArray = UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8);
+        String utf8EncodedSessionUuid = new String(uuidByteArray, StandardCharsets.UTF_8);
         Session session = customer.getSession();
-        session.setSessionUuid(UUID.fromString(sessionUuid));
+        session.setSessionUuid(utf8EncodedSessionUuid);
         sessionRepository.save(session);
+        return utf8EncodedSessionUuid;
     }
 }

@@ -30,8 +30,8 @@ public class CustomerController {
     }
 
     @PatchMapping(path = "/session-uuid/{phoneNumber}")
-    public void patchNewCustomerSessionUuid(@PathVariable String phoneNumber, @RequestBody String sessionUuid) throws Exception {
+    public String patchNewCustomerSessionUuid(@PathVariable String phoneNumber, @RequestBody String sessionUuid) throws Exception {
         log.info("CustomerController.patchNewCustomerSessionUuid\n phoneNumber is: "+ phoneNumber);
-        sessionService.patchSessionUuid(phoneNumber, sessionUuid);
+        return sessionService.patchSessionUuid(phoneNumber);
     }
 }
