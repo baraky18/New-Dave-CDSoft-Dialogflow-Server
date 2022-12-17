@@ -2,6 +2,7 @@ package com.cdsoft.dialogflowserver.services;
 
 import com.cdsoft.dialogflowserver.dtos.whatsapp.WhatsappCustomerDetailsDto;
 import com.cdsoft.dialogflowserver.entities.Customer;
+import com.cdsoft.dialogflowserver.entities.Session;
 import com.cdsoft.dialogflowserver.mappers.CustomerToWhatsappCustomerDetailsDtoMapper;
 import com.cdsoft.dialogflowserver.repositories.CustomerRepository;
 import com.cdsoft.dialogflowserver.services.integrator.IntegratorCustomerService;
@@ -44,5 +45,9 @@ public class CustomerService {
         }
         log.info("customer is: "+ customerOptional.get());
         return customerOptional.get();
+    }
+
+    public Customer getCustomerBySession(Session session){
+        return customerRepository.findBySession(session).orElseThrow();
     }
 }

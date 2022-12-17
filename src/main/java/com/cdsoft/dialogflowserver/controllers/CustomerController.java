@@ -31,7 +31,7 @@ public class CustomerController {
 
     @GetMapping(path = "/session-uuid/{phoneNumber}")
     public String getNewCustomerSessionUuid(@PathVariable String phoneNumber) throws Exception {
-        log.info("CustomerController.patchNewCustomerSessionUuid\n phoneNumber is: "+ phoneNumber);
-        return sessionService.patchSessionUuid(phoneNumber);
+        log.info("CustomerController.getNewCustomerSessionUuid\n phoneNumber is: "+ phoneNumber);
+        return sessionService.getSessionUuid(phoneNumber);
     }
 }

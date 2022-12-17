@@ -1,6 +1,8 @@
 package com.cdsoft.dialogflowserver.services;
 
 import com.cdsoft.dialogflowserver.dtos.google.WebhookRequestDto;
+import com.cdsoft.dialogflowserver.entities.Customer;
+import com.cdsoft.dialogflowserver.entities.Session;
 import com.cdsoft.dialogflowserver.enums.BusinessNotificationType;
 import com.cdsoft.dialogflowserver.model.BusinessNotification;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,8 @@ public class BusinessNotificationService {
 
     private final DayAndTimeService dayAndTimeService;
     private final JavaMailSender emailSender;
+    private final SessionService sessionService;
+    private final CustomerService customerService;
 
     @Value("${email.from}")
     private String fromEmail;
@@ -44,10 +48,25 @@ public class BusinessNotificationService {
     private BusinessNotification createBusinessNotification(BusinessNotificationType businessNotificationType, WebhookRequestDto webhookRequestDto) {
         LocalDateTime requestedDateAndTime = dayAndTimeService.getRequestedDateAndTime(webhookRequestDto);
         String productDetails = webhookRequestDto.getSessionInfo().getParameters().get(PRODUCT_DETAILS_ENTITY);
+        String customerDetails = getCustomerDetailsFromSession(webhookRequestDto);
         return BusinessNotification.builder()
                 .productDetails(productDetails)
+                .customerDetails(customerDetails)
                 .requestedDateTime(requestedDateAndTime)
                 .businessNotificationType(businessNotificationType)
                 .build();
+    }
+
+    private String getCustomerDetailsFromSession(WebhookRequestDto webhookRequestDto) {
+        String requestSession = webhookRequestDto.getSessionInfo().getSession();
+        String sessionUuid = getSessionUuidFromSession(requestSession);
+        Session session = sessionService.getSessionByUuid(sessionUuid);
+        Customer customer = customerService.getCustomerBySession(session);
+        return "First name: " + customer.getFirstName() + " Last name: " + customer.getLastName() + " Phone number: " + customer.getPhoneNumber();
+    }
+
+    private String getSessionUuidFromSession(String session) {
+        int sessionUuidBeginIndex = session.lastIndexOf("/sessions/") + 1;
+        return session.substring(sessionUuidBeginIndex);
     }
 }

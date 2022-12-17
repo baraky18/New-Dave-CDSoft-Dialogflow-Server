@@ -19,7 +19,7 @@ public class SessionService {
     private final CustomerService customerService;
 
 
-    public String patchSessionUuid(String phoneNumber) throws Exception {
+    public String getSessionUuid(String phoneNumber) throws Exception {
         Customer customer = customerService.getInternalCustomerDetails(phoneNumber);
         byte[] uuidByteArray = UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8);
         String utf8EncodedSessionUuid = new String(uuidByteArray, StandardCharsets.UTF_8);
@@ -27,5 +27,9 @@ public class SessionService {
         session.setSessionUuid(utf8EncodedSessionUuid);
         sessionRepository.save(session);
         return utf8EncodedSessionUuid;
+    }
+
+    public Session getSessionByUuid(String sessionUuid){
+        return sessionRepository.findBySessionUuid(sessionUuid).orElseThrow();
     }
 }
