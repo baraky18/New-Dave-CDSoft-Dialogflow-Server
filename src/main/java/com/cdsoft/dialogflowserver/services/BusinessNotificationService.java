@@ -60,6 +60,7 @@ public class BusinessNotificationService {
     private String getCustomerDetailsFromSession(WebhookRequestDto webhookRequestDto) {
         String requestSession = webhookRequestDto.getSessionInfo().getSession();
         String sessionUuid = getSessionUuidFromSession(requestSession);
+        log.info("sessionUuid is: " + sessionUuid);
         Session session = sessionService.getSessionByUuid(sessionUuid);
         Customer customer = customerService.getCustomerBySession(session);
         return "First name: " + customer.getFirstName() + " Last name: " + customer.getLastName() + " Phone number: " + customer.getPhoneNumber();
