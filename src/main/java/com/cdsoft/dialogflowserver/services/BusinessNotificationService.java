@@ -67,7 +67,7 @@ public class BusinessNotificationService {
     }
 
     private String getSessionUuidFromSession(String session) {
-        int sessionUuidBeginIndex = session.lastIndexOf("/sessions/") + 1;
+        int sessionUuidBeginIndex = session.lastIndexOf("/sessions/") + 10;
         return session.substring(sessionUuidBeginIndex);
     }
 }
