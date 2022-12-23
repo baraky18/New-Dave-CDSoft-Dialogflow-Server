@@ -1,5 +1,6 @@
 package com.cdsoft.dialogflowserver.controllers;
 
+import com.cdsoft.dialogflowserver.dtos.whatsapp.WhatsappHandleMessageResponseDto;
 import com.cdsoft.dialogflowserver.dtos.whatsapp.WhatsappMessageDto;
 import com.cdsoft.dialogflowserver.services.MessageService;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +16,9 @@ public class MessageController {
     private final MessageService messageService;
 
     @PostMapping(path = "/phone-number/{phoneNumber}")
-    public void createMessage(@PathVariable String phoneNumber, @RequestBody WhatsappMessageDto whatsappMessageDto) throws Exception {
+    @ResponseBody
+    public WhatsappHandleMessageResponseDto createMessage(@PathVariable String phoneNumber, @RequestBody WhatsappMessageDto whatsappMessageDto) throws Exception {
         log.info("MessageController.createMessage\n phoneNumber is: "+ phoneNumber + " message is: " + whatsappMessageDto);
-        messageService.createMessage(phoneNumber, whatsappMessageDto);
+        return messageService.createMessage(phoneNumber, whatsappMessageDto);
     }
 }
