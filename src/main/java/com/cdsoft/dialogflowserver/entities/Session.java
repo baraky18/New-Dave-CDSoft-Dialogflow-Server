@@ -3,6 +3,7 @@ package com.cdsoft.dialogflowserver.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,4 +34,7 @@ public class Session {
 
     @OneToMany(mappedBy = "session")
     private List<Message> messages;
+
+    @Column(name = "last_updated", columnDefinition = "DATETIME")
+    private LocalDateTime lastUpdated;
 }

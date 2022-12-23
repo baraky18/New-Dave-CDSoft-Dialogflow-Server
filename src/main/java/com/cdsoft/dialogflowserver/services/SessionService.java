@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -25,6 +26,7 @@ public class SessionService {
         String utf8EncodedSessionUuid = new String(uuidByteArray, StandardCharsets.UTF_8);
         Session session = customer.getSession();
         session.setSessionUuid(utf8EncodedSessionUuid);
+        session.setLastUpdated(LocalDateTime.now());
         sessionRepository.save(session);
         return utf8EncodedSessionUuid;
     }
