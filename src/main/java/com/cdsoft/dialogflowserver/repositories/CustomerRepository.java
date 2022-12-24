@@ -13,4 +13,6 @@ public interface CustomerRepository extends CrudRepository<Customer, String> {
     Optional<Customer> findByPhoneNumber(String phoneNumber);
 
     Optional<Customer> findBySession(Session session);
+
+    Customer getCustomerBySession(Session session);
 }
