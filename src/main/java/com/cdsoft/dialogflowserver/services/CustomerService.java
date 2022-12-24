@@ -48,7 +48,6 @@ public class CustomerService {
     }
 
     public Customer getCustomerBySession(Session session){
-//        return customerRepository.findBySession(session).orElseThrow();
-        return customerRepository.getCustomerBySession(session);
+        return customerRepository.getCustomerBySession(session.getSessionUuid());
     }
 }
