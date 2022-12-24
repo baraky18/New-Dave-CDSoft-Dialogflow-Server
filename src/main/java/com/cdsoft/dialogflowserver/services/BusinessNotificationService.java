@@ -62,6 +62,9 @@ public class BusinessNotificationService {
         String sessionUuid = getSessionUuidFromSession(requestSession);
         log.info("sessionUuid is: " + sessionUuid);
         Session session = sessionService.getSessionByUuid(sessionUuid);
+        log.info("session.getLastUpdated is: " + session.getLastUpdated());
+        log.info("session.getSessionUuid is: " + session.getSessionUuid());
+        log.info("session.getSessionName is: " + session.getSessionName());
         Customer customer = customerService.getCustomerBySession(session);
         return "First name: " + customer.getFirstName() + " Last name: " + customer.getLastName() + " Phone number: " + customer.getPhoneNumber();
     }
