@@ -2,6 +2,7 @@ package com.cdsoft.dialogflowserver.services;
 
 import com.cdsoft.dialogflowserver.dtos.whatsapp.WhatsappHandleMessageResponseDto;
 import com.cdsoft.dialogflowserver.dtos.whatsapp.WhatsappMessageDto;
+import com.cdsoft.dialogflowserver.dtos.whatsapp.WhatsappMessagesDto;
 import com.cdsoft.dialogflowserver.entities.Customer;
 import com.cdsoft.dialogflowserver.entities.Message;
 import com.cdsoft.dialogflowserver.mappers.MessageToWhatsappMessageDtoMapper;
@@ -9,6 +10,9 @@ import com.cdsoft.dialogflowserver.repositories.MessageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,5 +35,16 @@ public class MessageService {
         }
         messageRepository.save(message);
         return WhatsappHandleMessageResponseDto.builder().messageAlreadyExist(false).build();
+    }
+
+    public WhatsappMessagesDto getMessages(String phoneNumber) throws Exception {
+        log.info("MessageService.getMessages");
+        Customer customer = customerService.getInternalCustomerDetails(phoneNumber);
+        Optional<List<Message>> optionalMessagesList = messageRepository.findMessagesBySession(customer.getSession());
+        if(optionalMessagesList.isPresent()){
+            List<WhatsappMessageDto> messages = optionalMessagesList.get().stream().map(messageToWhatsappMessageDtoMapper::map).toList();
+            return WhatsappMessagesDto.builder().messages(messages).build();
+        }
+        return WhatsappMessagesDto.builder().build();
     }
 }
