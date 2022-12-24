@@ -23,10 +23,11 @@ public class CustomerController {
         return customerService.getCustomerDetails(phoneNumber);
     }
 
-    @PostMapping
-    public void createCustomerDetails(@RequestBody WhatsappCustomerDetailsDto whatsappCustomerDetailsDto) {
-        log.info("CustomerController.createCustomerDetails\n phoneNumber is: "+ whatsappCustomerDetailsDto.getPhoneNumber());
-        customerService.createCustomerDetails(whatsappCustomerDetailsDto);
+    @PostMapping(path = "/phone-number/{phoneNumber}")
+    @ResponseBody
+    public WhatsappCustomerDetailsDto createCustomerDetails(@PathVariable String phoneNumber) {
+        log.info("CustomerController.createCustomerDetails\n phoneNumber is: "+ phoneNumber);
+        return customerService.createCustomerDetails(phoneNumber);
     }
 
     @GetMapping(path = "/session-uuid/{phoneNumber}")

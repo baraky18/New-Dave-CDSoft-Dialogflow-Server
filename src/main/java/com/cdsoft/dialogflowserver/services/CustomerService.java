@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,16 +27,30 @@ public class CustomerService {
         log.info("CustomerService.getCustomerDetails");
         Optional<Customer> customerOptional = customerRepository.findByPhoneNumber(phoneNumber);
         if(customerOptional.isEmpty()){
-            Customer customer = integratorCustomerService.getCustomerDetails(phoneNumber);
-            customerRepository.save(customer);
-            return customerToWhatsappCustomerDetailsDtoMapper.map(customer);
+            return getCustomerFromIntegrator(phoneNumber);
         }
-        log.info("customer is: "+ customerOptional.get());
-        return customerToWhatsappCustomerDetailsDtoMapper.map(customerOptional.get());
+        Customer customer = customerOptional.get();
+        log.info("customer is: "+ customer);
+        return customerToWhatsappCustomerDetailsDtoMapper.map(customer);
     }
 
-    public void createCustomerDetails(WhatsappCustomerDetailsDto whatsappCustomerDetailsDto) {
-        customerRepository.save(customerToWhatsappCustomerDetailsDtoMapper.remap(whatsappCustomerDetailsDto));
+    private WhatsappCustomerDetailsDto getCustomerFromIntegrator(String phoneNumber) throws Exception {
+        Customer customer = integratorCustomerService.getCustomerDetails(phoneNumber);
+        customerRepository.save(customer);
+        return customerToWhatsappCustomerDetailsDtoMapper.map(customer);
+    }
+
+    public WhatsappCustomerDetailsDto createCustomerDetails(String phoneNumber) {
+        Customer customer = Customer.builder()
+                .phoneNumber(phoneNumber)
+                .session(Session.builder()
+                        .sessionName(phoneNumber)
+                        .lastUpdated(LocalDateTime.now())
+                        .sessionUuid(UUID.randomUUID().toString())
+                        .build())
+                .build();
+        customerRepository.save(customer);
+        return customerToWhatsappCustomerDetailsDtoMapper.map(customer);
     }
 
     public Customer getInternalCustomerDetails(String phoneNumber) throws Exception {
