@@ -7,7 +7,8 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @ToString
-public class WhatsappHandleMessageResponseDto {
+public class WhatsappMessageMetadataDto {
 
-    private boolean messageAlreadyExist;
+    private boolean isNewMessage;
+    private boolean isOpeningSessionMessage;
 }

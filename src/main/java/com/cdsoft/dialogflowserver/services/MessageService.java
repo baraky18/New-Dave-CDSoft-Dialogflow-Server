@@ -1,6 +1,6 @@
 package com.cdsoft.dialogflowserver.services;
 
-import com.cdsoft.dialogflowserver.dtos.whatsapp.WhatsappHandleMessageResponseDto;
+import com.cdsoft.dialogflowserver.dtos.whatsapp.WhatsappMessageMetadataDto;
 import com.cdsoft.dialogflowserver.dtos.whatsapp.WhatsappMessageDto;
 import com.cdsoft.dialogflowserver.dtos.whatsapp.WhatsappMessagesDto;
 import com.cdsoft.dialogflowserver.entities.Customer;
@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static com.cdsoft.dialogflowserver.util.Constants.OPENING_SESSION_MSG;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -23,7 +25,7 @@ public class MessageService {
     private final MessageToWhatsappMessageDtoMapper messageToWhatsappMessageDtoMapper;
     private final MessageRepository messageRepository;
 
-    public WhatsappHandleMessageResponseDto createMessage(String phoneNumber, WhatsappMessageDto whatsappMessageDto) throws Exception {
+    public WhatsappMessageMetadataDto createMessage(String phoneNumber, WhatsappMessageDto whatsappMessageDto) throws Exception {
         log.info("MessageService.createMessage");
         Customer customer = customerService.getInternalCustomerDetails(phoneNumber);
         Message message = messageToWhatsappMessageDtoMapper.remap(whatsappMessageDto);
@@ -31,10 +33,16 @@ public class MessageService {
         log.info("message is: "+ message);
         if(messageRepository.findMessageBySentDateTimeAndText(message.getSentDateTime(), message.getText()).isPresent()){
             log.info("message already exist");
-            return WhatsappHandleMessageResponseDto.builder().messageAlreadyExist(true).build();
+            return WhatsappMessageMetadataDto.builder()
+                    .isNewMessage(false)
+                    .isOpeningSessionMessage(message.getText().contains(OPENING_SESSION_MSG))
+                    .build();
         }
         messageRepository.save(message);
-        return WhatsappHandleMessageResponseDto.builder().messageAlreadyExist(false).build();
+        return WhatsappMessageMetadataDto.builder()
+                .isNewMessage(true)
+                .isOpeningSessionMessage(message.getText().contains(OPENING_SESSION_MSG))
+                .build();
     }
 
     public WhatsappMessagesDto getMessages(String phoneNumber) throws Exception {
