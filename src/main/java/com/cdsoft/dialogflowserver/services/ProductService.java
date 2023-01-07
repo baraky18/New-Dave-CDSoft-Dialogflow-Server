@@ -46,7 +46,7 @@ public class ProductService {
         Map<String, String> params = new HashMap<>();
 
         params.put(PRICE_ENTITY, Double.toString(productDetailsDto.getPrice()));
-        params.put(SUPPLY_TIME_ENTITY, "2021-11-16"); //TODO need to understand from Dvir how this is populated
+        params.put(SUPPLY_TIME_ENTITY, productDetailsDto.getDeliveryDetails());
         params.put(PRODUCT_DETAILS_ENTITY, productDetailsDto.getProductName());
         if(IS_IN_STOCK == productDetailsDto.getIsInStock()){
             reply.add(inStockMsg(productDetailsDto));
