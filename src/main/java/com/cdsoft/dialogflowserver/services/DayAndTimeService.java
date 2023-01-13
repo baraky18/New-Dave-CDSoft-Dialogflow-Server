@@ -44,14 +44,14 @@ public class DayAndTimeService {
         MessageDto message = MessageDto.builder()
                 .text(TextDto.builder()
                         .text(reply).build()).build();
-        Map<String, String> params = new HashMap<>();
-        params.put(DATE_ENTITY, date.toString());
+//        Map<String, String> params = new HashMap<>();
+//        params.put(DATE_ENTITY, date.toString());
         ArrayList<MessageDto> messages = new ArrayList<>();
         messages.add(message);
         return WebhookResponseDto.builder()
                 .fulfillmentResponseDto(FulfillmentResponseDto.builder()
                         .messages(messages).build())
-                .sessionInfoDto(SessionInfoDto.builder().parameters(params).build()).build();
+                .sessionInfoDto(webhookRequestDto.getSessionInfo()).build();
     }
 
     private LocalDateTime getDateAndTime(String day, int hour, int minute) {
