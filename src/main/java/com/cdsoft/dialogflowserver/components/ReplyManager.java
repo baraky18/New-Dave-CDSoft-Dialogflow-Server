@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import static com.cdsoft.dialogflowserver.util.LogUtil.formatJsonString;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -27,6 +29,8 @@ public class ReplyManager {
     public WebhookResponseDto handleBusinessCallNotificationRequest(BusinessNotificationType businessNotificationType, WebhookRequestDto webhookRequestDto) {
         log.info("ReplyManager.handleBusinessCallNotificationRequest");
         businessNotificationService.notifyBusiness(businessNotificationType, webhookRequestDto);
-        return dayAndTimeService.prepareWebhookResponse(webhookRequestDto);
+        WebhookResponseDto webhookResponseDto = dayAndTimeService.prepareWebhookResponse(webhookRequestDto);
+        log.info(formatJsonString(webhookResponseDto.toString()));
+        return webhookResponseDto;
     }
 }
