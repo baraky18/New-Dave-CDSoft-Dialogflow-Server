@@ -30,7 +30,7 @@ public class ReplyManager {
         log.info("ReplyManager.handleBusinessCallNotificationRequest");
         businessNotificationService.notifyBusiness(businessNotificationType, webhookRequestDto);
         WebhookResponseDto webhookResponseDto = dayAndTimeService.prepareWebhookResponse(webhookRequestDto);
-        log.info(formatJsonString(webhookResponseDto.toString()));
+        log.info(webhookResponseDto.toString());
         return webhookResponseDto;
     }
 }
