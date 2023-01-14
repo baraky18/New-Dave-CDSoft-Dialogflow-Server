@@ -37,7 +37,7 @@ public class SessionService {
         if(optionalSession.isPresent()){
             return optionalSession.get();
         }
-        Session dialogflowTestSession = sessionRepository.findById("0").get();
+        Session dialogflowTestSession = sessionRepository.findById("2").get();
         dialogflowTestSession.setSessionUuid(sessionUuid);
         return sessionRepository.save(dialogflowTestSession);
     }
