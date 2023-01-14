@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface SessionRepository extends CrudRepository<Session, String> {
 
     Optional<Session> findBySessionUuid(String sessionUuid);
+
+    Optional<Session> findBySessionName(String sessionName);
 }
