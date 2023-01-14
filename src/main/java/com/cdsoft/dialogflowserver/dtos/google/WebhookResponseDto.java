@@ -15,8 +15,7 @@ public class WebhookResponseDto {
 
     @JsonProperty(value = "fulfillment_response")
     private FulfillmentResponseDto fulfillmentResponseDto;
+
     @JsonProperty(value = "session_info")
     private SessionInfoDto sessionInfoDto;
-    @JsonProperty(value = "target_page")
-    private String targetPage;
 }

@@ -44,15 +44,14 @@ public class DayAndTimeService {
         MessageDto message = MessageDto.builder()
                 .text(TextDto.builder()
                         .text(reply).build()).build();
-//        Map<String, String> params = new HashMap<>();
-//        params.put(DATE_ENTITY, date.toString());
+        Map<String, String> params = new HashMap<>();
+        params.put(DATE_ENTITY, date.toString());
         ArrayList<MessageDto> messages = new ArrayList<>();
         messages.add(message);
         return WebhookResponseDto.builder()
                 .fulfillmentResponseDto(FulfillmentResponseDto.builder()
                         .messages(messages).build())
                 .sessionInfoDto(webhookRequestDto.getSessionInfo())
-                .targetPage("projects/cdsoft-faq/locations/europe-west3/agents/d1b1313d-acb8-401b-9a15-92ed13475568/flows/d8cf5da9-2e7b-42a4-ac26-30d937efa35f/pages/627a0ddd-73ae-4d14-a5e0-8264a153cc79")
                 .build();
     }
 
