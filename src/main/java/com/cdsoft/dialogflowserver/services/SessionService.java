@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -32,6 +33,12 @@ public class SessionService {
     }
 
     public Session getSessionByUuid(String sessionUuid){
-        return sessionRepository.findBySessionUuid(sessionUuid).orElseThrow();
+        Optional<Session> optionalSession = sessionRepository.findBySessionUuid(sessionUuid);
+        if(optionalSession.isPresent()){
+            return optionalSession.get();
+        }
+        Session dialogflowTestSession = sessionRepository.findById("0").get();
+        dialogflowTestSession.setSessionUuid(sessionUuid);
+        return sessionRepository.save(dialogflowTestSession);
     }
 }

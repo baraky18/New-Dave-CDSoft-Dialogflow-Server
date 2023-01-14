@@ -43,8 +43,21 @@ public class ProductService {
     private WebhookResponseDto prepareWebhookResponse(ProductDetailsDto productDetailsDto) {
         log.info("ProductService.prepareWebhookResponse");
         ArrayList<String> reply = new ArrayList<>();
-        Map<String, String> params = new HashMap<>();
+        Map<String, String> params = populateParams(productDetailsDto, reply);
+        MessageDto message = MessageDto.builder()
+                .text(TextDto.builder()
+                        .text(reply).build()).build();
+        ArrayList<MessageDto> messages = new ArrayList<>();
+        messages.add(message);
+        return WebhookResponseDto.builder()
+                .sessionInfoDto(SessionInfoDto.builder()
+                        .parameters(params).build())
+                .fulfillmentResponseDto(FulfillmentResponseDto.builder()
+                        .messages(messages).build()).build();
+    }
 
+    private Map<String, String> populateParams(ProductDetailsDto productDetailsDto, ArrayList<String> reply) {
+        Map<String, String> params = new HashMap<>();
         params.put(PRICE_ENTITY, Double.toString(productDetailsDto.getPrice()));
         params.put(SUPPLY_TIME_ENTITY, productDetailsDto.getDeliveryDetails());
         params.put(PRODUCT_DETAILS_ENTITY, productDetailsDto.getProductName());
@@ -56,16 +69,7 @@ public class ProductService {
             reply.add(NOT_IN_STOCK_MSG);
             params.put(STOCK_ENTITY, "false");
         }
-        MessageDto message = MessageDto.builder()
-                .text(TextDto.builder()
-                        .text(reply).build()).build();
-        ArrayList<MessageDto> messages = new ArrayList<>();
-        messages.add(message);
-        return WebhookResponseDto.builder()
-                .sessionInfoDto(SessionInfoDto.builder()
-                        .parameters(params).build())
-                .fulfillmentResponseDto(FulfillmentResponseDto.builder()
-                        .messages(messages).build()).build();
+        return params;
     }
 
     private String inStockMsg(ProductDetailsDto productDetailsDto) {
