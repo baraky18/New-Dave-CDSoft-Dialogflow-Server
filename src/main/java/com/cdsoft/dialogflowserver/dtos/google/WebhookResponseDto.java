@@ -18,4 +18,6 @@ public class WebhookResponseDto {
 
     @JsonProperty(value = "session_info")
     private SessionInfoDto sessionInfoDto;
+
+    private String targetPage;
 }

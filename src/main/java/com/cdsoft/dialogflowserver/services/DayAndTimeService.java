@@ -51,7 +51,9 @@ public class DayAndTimeService {
         return WebhookResponseDto.builder()
                 .fulfillmentResponseDto(FulfillmentResponseDto.builder()
                         .messages(messages).build())
-                .sessionInfoDto(webhookRequestDto.getSessionInfo()).build();
+                .sessionInfoDto(webhookRequestDto.getSessionInfo())
+                .targetPage("projects/cdsoft-faq/locations/europe-west3/agents/d1b1313d-acb8-401b-9a15-92ed13475568/flows/d8cf5da9-2e7b-42a4-ac26-30d937efa35f/pages/627a0ddd-73ae-4d14-a5e0-8264a153cc79")
+                .build();
     }
 
     private LocalDateTime getDateAndTime(String day, int hour, int minute) {
