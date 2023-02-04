@@ -44,4 +44,5 @@ email:
   to: barak.yedaya@gmail.com
 
 integrator:
-  url: https://new-dave-cdsoft-integrator.herokuapp.com
+#  url: https://new-dave-cdsoft-integrator.herokuapp.com
+  url: https://18be-89-139-148-144.eu.ngrok.io
