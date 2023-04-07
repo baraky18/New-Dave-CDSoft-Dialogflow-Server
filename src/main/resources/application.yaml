@@ -45,4 +45,4 @@ email:
 
 integrator:
 #  url: https://new-dave-cdsoft-integrator.herokuapp.com
-  url: https://dc84-2a06-c701-bf63-6400-d55d-7c49-5c0f-8d9e.eu.ngrok.io
+  url: https://localhost:4555
