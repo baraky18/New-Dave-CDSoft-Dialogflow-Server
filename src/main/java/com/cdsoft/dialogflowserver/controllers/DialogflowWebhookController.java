@@ -8,13 +8,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+//import java.util.ArrayList;
+//import java.util.HashMap;
+//import java.util.Map;
 
 import static com.cdsoft.dialogflowserver.enums.BusinessNotificationType.PERFORM_BUSINESS_CALL;
-import static com.cdsoft.dialogflowserver.util.Constants.UNWANTED_TEXT_FOR_PRODUCT_DETAILS_MSG;
-import static com.cdsoft.dialogflowserver.util.DialogflowEntities.*;
+//import static com.cdsoft.dialogflowserver.util.Constants.UNWANTED_TEXT_FOR_PRODUCT_DETAILS_MSG;
+//import static com.cdsoft.dialogflowserver.util.DialogflowEntities.*;
 import static com.cdsoft.dialogflowserver.util.LogUtil.formatJsonString;
 
 @RestController
@@ -46,33 +46,33 @@ public class DialogflowWebhookController {
         return webhookResponseDto;
     }
 
-    @PostMapping(path = "/product-details-mock")
-    @ResponseBody
-    public WebhookResponseDto productDetailsMock(@RequestBody String webhookRequestDtoAsString) throws JsonProcessingException {
-        log.info("DialogflowWebhookController.productDetailsMock");
-        log.info("webhookRequest is: \n" + formatJsonString(webhookRequestDtoAsString));
-
-        ArrayList<String> reply = new ArrayList<>();
-        reply.add("זה מדפסת/ סורק מעולה של Ultimaker. מה תרצה לדעת עליו?");
-
-        WebhookRequestDto webhookRequestDto = objectMapper.readValue(webhookRequestDtoAsString, WebhookRequestDto.class);
-        String productNameWithStars = webhookRequestDto.getText().replace(UNWANTED_TEXT_FOR_PRODUCT_DETAILS_MSG, "");
-        String productName = productNameWithStars.replace("*", "");
-
-        Map<String, String> params = new HashMap<>();
-        params.put(STOCK_ENTITY, "true");
-        params.put(PRICE_ENTITY, "52.3$");
-        params.put(SUPPLY_TIME_ENTITY, "2021-11-16");
-        params.put(PRODUCT_DETAILS_ENTITY, productName);
-        MessageDto message = MessageDto.builder()
-                .text(TextDto.builder()
-                        .text(reply).build()).build();
-        ArrayList<MessageDto> messages = new ArrayList<>();
-        messages.add(message);
-        return WebhookResponseDto.builder()
-                .sessionInfoDto(SessionInfoDto.builder()
-                        .parameters(params).build())
-                .fulfillmentResponseDto(FulfillmentResponseDto.builder()
-                        .messages(messages).build()).build();
-    }
+//    @PostMapping(path = "/product-details-mock")
+//    @ResponseBody
+//    public WebhookResponseDto productDetailsMock(@RequestBody String webhookRequestDtoAsString) throws JsonProcessingException {
+//        log.info("DialogflowWebhookController.productDetailsMock");
+//        log.info("webhookRequest is: \n" + formatJsonString(webhookRequestDtoAsString));
+//
+//        ArrayList<String> reply = new ArrayList<>();
+//        reply.add("זה מדפסת/ סורק מעולה של Ultimaker. מה תרצה לדעת עליו?");
+//
+//        WebhookRequestDto webhookRequestDto = objectMapper.readValue(webhookRequestDtoAsString, WebhookRequestDto.class);
+//        String productNameWithStars = webhookRequestDto.getText().replace(UNWANTED_TEXT_FOR_PRODUCT_DETAILS_MSG, "");
+//        String productName = productNameWithStars.replace("*", "");
+//
+//        Map<String, String> params = new HashMap<>();
+//        params.put(STOCK_ENTITY, "true");
+//        params.put(PRICE_ENTITY, "52.3$");
+//        params.put(SUPPLY_TIME_ENTITY, "2021-11-16");
+//        params.put(PRODUCT_DETAILS_ENTITY, productName);
+//        MessageDto message = MessageDto.builder()
+//                .text(TextDto.builder()
+//                        .text(reply).build()).build();
+//        ArrayList<MessageDto> messages = new ArrayList<>();
+//        messages.add(message);
+//        return WebhookResponseDto.builder()
+//                .sessionInfoDto(SessionInfoDto.builder()
+//                        .parameters(params).build())
+//                .fulfillmentResponseDto(FulfillmentResponseDto.builder()
+//                        .messages(messages).build()).build();
+//    }
 }
