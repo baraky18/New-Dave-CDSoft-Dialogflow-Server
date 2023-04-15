@@ -36,6 +36,16 @@ public class DialogflowWebhookController {
         return webhookResponseDto;
     }
 
+    @PostMapping(path = "/similar-products-details")
+    @ResponseBody
+    public WebhookResponseDto similarProductsDetails(@RequestBody String webhookRequestDtoAsString) throws JsonProcessingException {
+        log.info("DialogflowWebhookController.similarProductsDetails\n webhookRequest is: \n"+ formatJsonString(webhookRequestDtoAsString));
+        WebhookRequestDto webhookRequestDto = objectMapper.readValue(webhookRequestDtoAsString, WebhookRequestDto.class);
+        WebhookResponseDto webhookResponseDto = replyManager.handleSimilarProductsDetailsRequest(webhookRequestDto);
+        log.info("webhookResponse is: \n" + objectMapper.writeValueAsString(webhookResponseDto));
+        return webhookResponseDto;
+    }
+
     @PostMapping(path = "/business-call-notification")
     @ResponseBody
     public WebhookResponseDto businessCallNotification(@RequestBody String webhookRequestDtoAsString) throws JsonProcessingException {

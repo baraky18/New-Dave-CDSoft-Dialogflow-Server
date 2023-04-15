@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.cdsoft.dialogflowserver.util.Constants.*;
@@ -25,12 +26,16 @@ public class ProductService {
     private final RestTemplate integratorRestTemplate;
     private final CategoryMapper categoryMapper;
 
-    public WebhookResponseDto getProductDetails(WebhookRequestDto webhookRequestDto) {
+    public WebhookResponseDto getProductDetailsAsWebhookResponse(WebhookRequestDto webhookRequestDto) {
+        log.info("ProductService.getProductDetailsAsWebhookResponse");
+        return prepareWebhookResponse(getProductDetails(webhookRequestDto));
+    }
+
+    public ProductDetailsDto getProductDetails(WebhookRequestDto webhookRequestDto) {
         log.info("ProductService.getProductDetails");
         String productName = getProductNameFromRequest(webhookRequestDto);
         ProductRequestDto productRequestDto = ProductRequestDto.builder().productName(productName).build();
-        ProductDetailsDto productDetailsDto = integratorRestTemplate.postForObject("/product/name", productRequestDto, ProductDetailsDto.class);
-        return prepareWebhookResponse(productDetailsDto);
+        return integratorRestTemplate.postForObject("/product/name", productRequestDto, ProductDetailsDto.class);
     }
 
     private String getProductNameFromRequest(WebhookRequestDto webhookRequestDto) {
@@ -42,8 +47,12 @@ public class ProductService {
 
     private WebhookResponseDto prepareWebhookResponse(ProductDetailsDto productDetailsDto) {
         log.info("ProductService.prepareWebhookResponse");
-        ArrayList<String> reply = new ArrayList<>();
-        Map<String, String> params = populateParams(productDetailsDto, reply);
+        List<String> reply = populateReply(productDetailsDto);
+        Map<String, String> params = populateParams(productDetailsDto);
+        return populateWebhookResponseDto(reply, params);
+    }
+
+    private WebhookResponseDto populateWebhookResponseDto(List<String> reply, Map<String, String> params) {
         MessageDto message = MessageDto.builder()
                 .text(TextDto.builder()
                         .text(reply).build()).build();
@@ -56,17 +65,26 @@ public class ProductService {
                         .messages(messages).build()).build();
     }
 
-    private Map<String, String> populateParams(ProductDetailsDto productDetailsDto, ArrayList<String> reply) {
+    private List<String> populateReply(ProductDetailsDto productDetailsDto) {
+        List<String> reply = new ArrayList<>();
+        if(IS_IN_STOCK == productDetailsDto.getIsInStock()){
+            reply.add(inStockMsg(productDetailsDto));
+        }
+        else{
+            reply.add(NOT_IN_STOCK_MSG);
+        }
+        return reply;
+    }
+
+    private Map<String, String> populateParams(ProductDetailsDto productDetailsDto) {
         Map<String, String> params = new HashMap<>();
         params.put(PRICE_ENTITY, Double.toString(productDetailsDto.getPrice()));
         params.put(SUPPLY_TIME_ENTITY, productDetailsDto.getDeliveryDetails());
         params.put(PRODUCT_DETAILS_ENTITY, productDetailsDto.getProductName());
         if(IS_IN_STOCK == productDetailsDto.getIsInStock()){
-            reply.add(inStockMsg(productDetailsDto));
             params.put(STOCK_ENTITY, "true");
         }
         else{
-            reply.add(NOT_IN_STOCK_MSG);
             params.put(STOCK_ENTITY, "false");
         }
         return params;

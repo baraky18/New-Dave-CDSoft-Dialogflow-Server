@@ -6,6 +6,7 @@ import com.cdsoft.dialogflowserver.enums.BusinessNotificationType;
 import com.cdsoft.dialogflowserver.services.BusinessNotificationService;
 import com.cdsoft.dialogflowserver.services.DayAndTimeService;
 import com.cdsoft.dialogflowserver.services.ProductService;
+import com.cdsoft.dialogflowserver.services.SimilarProductsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -18,12 +19,18 @@ import static com.cdsoft.dialogflowserver.util.LogUtil.formatJsonString;
 public class ReplyManager {
 
     private final ProductService productService;
+    private final SimilarProductsService similarProductsService;
     private final DayAndTimeService dayAndTimeService;
     private final BusinessNotificationService businessNotificationService;
 
     public WebhookResponseDto handleProductDetailsRequest(WebhookRequestDto webhookRequestDto) {
         log.info("ReplyManager.handleProductDetailsRequest");
-        return productService.getProductDetails(webhookRequestDto);
+        return productService.getProductDetailsAsWebhookResponse(webhookRequestDto);
+    }
+
+    public WebhookResponseDto handleSimilarProductsDetailsRequest(WebhookRequestDto webhookRequestDto) {
+        log.info("ReplyManager.handleSimilarProductsDetailsRequest");
+        return similarProductsService.getSimilarProductsDetails(webhookRequestDto);
     }
 
     public WebhookResponseDto handleBusinessCallNotificationRequest(BusinessNotificationType businessNotificationType, WebhookRequestDto webhookRequestDto) {
