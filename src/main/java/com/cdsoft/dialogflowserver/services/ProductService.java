@@ -53,20 +53,7 @@ public class ProductService {
         log.info("ProductService.prepareWebhookResponse");
         List<String> reply = populateReply(productDetailsDto);
         Map<String, String> params = populateParams(productDetailsDto);
-        return populateWebhookResponseDto(reply, params);
-    }
-
-    private WebhookResponseDto populateWebhookResponseDto(List<String> reply, Map<String, String> params) {
-        MessageDto message = MessageDto.builder()
-                .text(TextDto.builder()
-                        .text(reply).build()).build();
-        ArrayList<MessageDto> messages = new ArrayList<>();
-        messages.add(message);
-        return WebhookResponseDto.builder()
-                .sessionInfoDto(SessionInfoDto.builder()
-                        .parameters(params).build())
-                .fulfillmentResponseDto(FulfillmentResponseDto.builder()
-                        .messages(messages).build()).build();
+        return dialogflowWebhookResponseService.populateWebhookResponseDto(reply, params);
     }
 
     private List<String> populateReply(ProductDetailsDto productDetailsDto) {
