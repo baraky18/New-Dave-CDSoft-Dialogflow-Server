@@ -4,6 +4,8 @@ import com.cdsoft.dialogflowserver.dtos.google.*;
 import com.cdsoft.dialogflowserver.dtos.integrator.ProductDetailsDto;
 import com.cdsoft.dialogflowserver.dtos.integrator.ProductRequestDto;
 import com.cdsoft.dialogflowserver.mappers.language.CategoryMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,8 +27,10 @@ public class ProductService {
 
     private final RestTemplate integratorRestTemplate;
     private final CategoryMapper categoryMapper;
+    private final DialogflowWebhookResponseService dialogflowWebhookResponseService;
+    private final ObjectMapper objectMapper;
 
-    public WebhookResponseDto getProductDetailsAsWebhookResponse(WebhookRequestDto webhookRequestDto) {
+    public WebhookResponseDto getProductDetailsAsWebhookResponse(WebhookRequestDto webhookRequestDto) throws JsonProcessingException {
         log.info("ProductService.getProductDetailsAsWebhookResponse");
         return prepareWebhookResponse(getProductDetails(webhookRequestDto));
     }
@@ -45,7 +49,7 @@ public class ProductService {
         return productName;
     }
 
-    private WebhookResponseDto prepareWebhookResponse(ProductDetailsDto productDetailsDto) {
+    private WebhookResponseDto prepareWebhookResponse(ProductDetailsDto productDetailsDto) throws JsonProcessingException {
         log.info("ProductService.prepareWebhookResponse");
         List<String> reply = populateReply(productDetailsDto);
         Map<String, String> params = populateParams(productDetailsDto);
@@ -76,12 +80,12 @@ public class ProductService {
         return reply;
     }
 
-    private Map<String, String> populateParams(ProductDetailsDto productDetailsDto) {
+    private Map<String, String> populateParams(ProductDetailsDto productDetailsDto) throws JsonProcessingException {
         Map<String, String> params = new HashMap<>();
         params.put(PRICE_ENTITY, Double.toString(productDetailsDto.getPrice()));
         params.put(SUPPLY_TIME_ENTITY, productDetailsDto.getDeliveryDetails());
         params.put(PRODUCT_DETAILS_ENTITY, productDetailsDto.getProductName());
-        params.put(PRODUCT_FEATURES_ENTITY, productDetailsDto.getFeaturesValues().toString());
+        params.put(PRODUCT_FEATURES_ENTITY, objectMapper.writeValueAsString(productDetailsDto.getFeaturesValues()));
         if(IS_IN_STOCK == productDetailsDto.getIsInStock()){
             params.put(STOCK_ENTITY, "true");
         }

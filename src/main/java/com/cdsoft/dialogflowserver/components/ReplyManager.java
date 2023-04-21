@@ -7,6 +7,7 @@ import com.cdsoft.dialogflowserver.services.BusinessNotificationService;
 import com.cdsoft.dialogflowserver.services.DayAndTimeService;
 import com.cdsoft.dialogflowserver.services.ProductService;
 import com.cdsoft.dialogflowserver.services.SimilarProductsService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ public class ReplyManager {
     private final DayAndTimeService dayAndTimeService;
     private final BusinessNotificationService businessNotificationService;
 
-    public WebhookResponseDto handleProductDetailsRequest(WebhookRequestDto webhookRequestDto) {
+    public WebhookResponseDto handleProductDetailsRequest(WebhookRequestDto webhookRequestDto) throws JsonProcessingException {
         log.info("ReplyManager.handleProductDetailsRequest");
         return productService.getProductDetailsAsWebhookResponse(webhookRequestDto);
     }
