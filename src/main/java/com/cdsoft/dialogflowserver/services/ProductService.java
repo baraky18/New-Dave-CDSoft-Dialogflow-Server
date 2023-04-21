@@ -80,7 +80,8 @@ public class ProductService {
         Map<String, String> params = new HashMap<>();
         params.put(PRICE_ENTITY, Double.toString(productDetailsDto.getPrice()));
         params.put(SUPPLY_TIME_ENTITY, productDetailsDto.getDeliveryDetails());
-        params.put(PRODUCT_DETAILS_ENTITY, productDetailsDto.toString());
+        params.put(PRODUCT_DETAILS_ENTITY, productDetailsDto.getProductName());
+        params.put(PRODUCT_FEATURES_ENTITY, productDetailsDto.getFeaturesValues().toString());
         if(IS_IN_STOCK == productDetailsDto.getIsInStock()){
             params.put(STOCK_ENTITY, "true");
         }
