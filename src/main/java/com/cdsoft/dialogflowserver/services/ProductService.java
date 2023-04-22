@@ -43,10 +43,13 @@ public class ProductService {
     }
 
     private String getProductNameFromRequest(WebhookRequestDto webhookRequestDto) {
-        String productNameWithStars = webhookRequestDto.getText().replace(UNWANTED_TEXT_FOR_PRODUCT_DETAILS_MSG, "");
-        String productName = productNameWithStars.replace("*", "");
-        log.info("product name is: \n" + productName);
-        return productName;
+        if(webhookRequestDto.getSessionInfo().getParameters().get(PRODUCT_DETAILS_ENTITY).isEmpty()){
+            String productNameWithStars = webhookRequestDto.getText().replace(UNWANTED_TEXT_FOR_PRODUCT_DETAILS_MSG, "");
+            String productName = productNameWithStars.replace("*", "");
+            log.info("product name is: \n" + productName);
+            return productName;
+        }
+        return webhookRequestDto.getSessionInfo().getParameters().get(PRODUCT_DETAILS_ENTITY);
     }
 
     private WebhookResponseDto prepareWebhookResponse(ProductDetailsDto productDetailsDto) throws JsonProcessingException {
