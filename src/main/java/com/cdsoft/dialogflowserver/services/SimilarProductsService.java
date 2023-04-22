@@ -5,6 +5,8 @@ import com.cdsoft.dialogflowserver.dtos.google.WebhookResponseDto;
 import com.cdsoft.dialogflowserver.dtos.integrator.FeatureValueDto;
 import com.cdsoft.dialogflowserver.dtos.integrator.ProductDetailsDto;
 import com.cdsoft.dialogflowserver.dtos.integrator.ProductsDetailsDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,11 +28,13 @@ public class SimilarProductsService {
     private final ProductService productService;
     private final RestTemplate integratorRestTemplate;
     private final DialogflowWebhookResponseService dialogflowWebhookResponseService;
+    private final ObjectMapper objectMapper;
 
-    public WebhookResponseDto getSimilarProductsDetails(WebhookRequestDto webhookRequestDto) {
+    public WebhookResponseDto getSimilarProductsDetails(WebhookRequestDto webhookRequestDto) throws JsonProcessingException {
         ProductDetailsDto productDetailsDto = productService.getProductDetails(webhookRequestDto);
         List<FeatureValueDto> featureValueDtoList = getPreferredFeaturesAndValues(productDetailsDto);
-        ProductsDetailsDto productsDetailsDto = integratorRestTemplate.getForObject("/similar-products?featureValueDtoList={featureValueDtoList}", ProductsDetailsDto.class, featureValueDtoList);
+        String featureValueDtoListAsJson = objectMapper.writeValueAsString(featureValueDtoList);
+        ProductsDetailsDto productsDetailsDto = integratorRestTemplate.getForObject("/similar-products?featureValueDtoList={featureValueDtoList}", ProductsDetailsDto.class, featureValueDtoListAsJson);
         return prepareWebhookResponse(productsDetailsDto);
     }
 

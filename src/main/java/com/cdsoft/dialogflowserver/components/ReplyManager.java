@@ -29,7 +29,7 @@ public class ReplyManager {
         return productService.getProductDetailsAsWebhookResponse(webhookRequestDto);
     }
 
-    public WebhookResponseDto handleSimilarProductsDetailsRequest(WebhookRequestDto webhookRequestDto) {
+    public WebhookResponseDto handleSimilarProductsDetailsRequest(WebhookRequestDto webhookRequestDto) throws JsonProcessingException {
         log.info("ReplyManager.handleSimilarProductsDetailsRequest");
         return similarProductsService.getSimilarProductsDetails(webhookRequestDto);
     }
