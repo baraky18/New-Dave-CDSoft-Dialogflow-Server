@@ -43,7 +43,7 @@ public class ProductService {
     }
 
     private String getProductNameFromRequest(WebhookRequestDto webhookRequestDto) {
-        if(webhookRequestDto.getSessionInfo().getParameters().get(PRODUCT_DETAILS_ENTITY).isEmpty()){
+        if(webhookRequestDto.getSessionInfo().getParameters().get(PRODUCT_DETAILS_ENTITY) == null){
             String productNameWithStars = webhookRequestDto.getText().replace(UNWANTED_TEXT_FOR_PRODUCT_DETAILS_MSG, "");
             String productName = productNameWithStars.replace("*", "");
             log.info("product name is: \n" + productName);
