@@ -35,7 +35,11 @@ public class SimilarProductsService {
     }
 
     private List<FeatureValueDto> getPreferredFeaturesAndValues(ProductDetailsDto productDetailsDto) {
-        return null;
+        //TODO need to get the logic from Dvir
+        List<FeatureValueDto> featureValueDtoList = new ArrayList<>();
+        featureValueDtoList.add(productDetailsDto.getFeaturesValues().get(0));
+        featureValueDtoList.add(productDetailsDto.getFeaturesValues().get(1));
+        return featureValueDtoList;
     }
 
     private WebhookResponseDto prepareWebhookResponse(ProductsDetailsDto productsDetailsDto) {
