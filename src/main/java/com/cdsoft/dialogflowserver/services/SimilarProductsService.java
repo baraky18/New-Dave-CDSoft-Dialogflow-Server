@@ -30,7 +30,7 @@ public class SimilarProductsService {
     public WebhookResponseDto getSimilarProductsDetails(WebhookRequestDto webhookRequestDto) {
         ProductDetailsDto productDetailsDto = productService.getProductDetails(webhookRequestDto);
         List<FeatureValueDto> featureValueDtoList = getPreferredFeaturesAndValues(productDetailsDto);
-        ProductsDetailsDto productsDetailsDto = integratorRestTemplate.getForObject("/similar-products", ProductsDetailsDto.class, featureValueDtoList);
+        ProductsDetailsDto productsDetailsDto = integratorRestTemplate.getForObject("/similar-products?featureValueDtoList={featureValueDtoList}", ProductsDetailsDto.class, featureValueDtoList);
         return prepareWebhookResponse(productsDetailsDto);
     }
 
